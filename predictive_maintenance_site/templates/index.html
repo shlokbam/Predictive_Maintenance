@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predictive Maintenance — ML Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav id="navbar">
+    <div class="nav-logo">PM<span class="dot">.</span>ML</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#dataset">Dataset</a></li>
+      <li><a href="#eda">EDA</a></li>
+      <li><a href="#bias">Bias</a></li>
+      <li><a href="#smote">SMOTE</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="#hybrid">Hybrid</a></li>
+      <li><a href="#result">Result</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-drawer" id="drawer">
+    <a href="#home" class="drawer-link">Home</a>
+    <a href="#dataset" class="drawer-link">Dataset</a>
+    <a href="#eda" class="drawer-link">EDA</a>
+    <a href="#bias" class="drawer-link">Bias</a>
+    <a href="#smote" class="drawer-link">SMOTE</a>
+    <a href="#models" class="drawer-link">Models</a>
+    <a href="#hybrid" class="drawer-link">Hybrid</a>
+    <a href="#result" class="drawer-link">Result</a>
+  </div>
+
+  <!-- ── PROGRESS BAR ── -->
+  <div id="progress-bar"></div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 1 — HOME / HERO
+  ══════════════════════════════════════ -->
+  <section id="home" class="section hero-section">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content reveal">
+      <div class="hero-tag">Mini Project · Machine Learning</div>
+      <h1 class="hero-title">
+        Predictive<br>
+        <em>Maintenance</em><br>
+        Using ML
+      </h1>
+      <p class="hero-sub">
+        In industrial environments, unexpected machine failures cause significant financial loss and operational downtime. Traditional maintenance methods are reactive and inefficient.
+      </p>
+      <p class="hero-sub">
+        This project builds a system that identifies failures <strong>before they occur</strong> using sensor data and machine learning.
+      </p>
+      <!-- <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>Our goal is to shift from reactive maintenance to predictive maintenance using data-driven techniques.</span>
+      </div> -->
+      <div class="hero-stats">
+        <div class="stat-card"><div class="stat-num">10,000</div><div class="stat-desc">Data samples</div></div>
+        <div class="stat-card"><div class="stat-num">5</div><div class="stat-desc">ML models</div></div>
+        <div class="stat-card"><div class="stat-num">97.5%</div><div class="stat-desc">Best accuracy</div></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal-right">
+      <div class="machine-card">
+        <div class="machine-header">
+          <span class="machine-dot green"></span>
+          <span class="machine-dot yellow"></span>
+          <span class="machine-dot red"></span>
+          <span class="machine-label">sensor_feed.live</span>
+        </div>
+        <div class="machine-body">
+          <div class="sensor-row"><span class="sensor-name">Air Temp</span><span class="sensor-val anim-val" data-vals="298K,301K,299K,303K">298K</span><div class="sensor-bar"><div class="sensor-fill" style="width:62%"></div></div></div>
+          <div class="sensor-row"><span class="sensor-name">Process Temp</span><span class="sensor-val anim-val" data-vals="308K,311K,309K,313K">308K</span><div class="sensor-bar"><div class="sensor-fill" style="width:71%"></div></div></div>
+          <div class="sensor-row"><span class="sensor-name">Rot. Speed</span><span class="sensor-val anim-val" data-vals="1551rpm,1420rpm,1800rpm,1600rpm">1551rpm</span><div class="sensor-bar"><div class="sensor-fill warn" style="width:80%"></div></div></div>
+          <div class="sensor-row"><span class="sensor-name">Torque</span><span class="sensor-val anim-val" data-vals="42Nm,55Nm,38Nm,61Nm">42Nm</span><div class="sensor-bar"><div class="sensor-fill" style="width:45%"></div></div></div>
+          <div class="sensor-row"><span class="sensor-name">Tool Wear</span><span class="sensor-val anim-val" data-vals="198min,220min,175min,240min">198min</span><div class="sensor-bar"><div class="sensor-fill danger" style="width:88%"></div></div></div>
+        </div>
+        <div class="machine-footer">
+          <span class="status-dot pulse"></span>
+          <span class="status-text">Monitoring live</span>
+          <span class="predict-badge">⚠ Failure predicted</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 2 — DATASET
+  ══════════════════════════════════════ -->
+  <section id="dataset" class="section alt-section">
+    <div class="section-inner reveal">
+      <div class="section-tag">02 — Dataset</div>
+      <h2 class="section-title">What Data We Have</h2>
+      <p class="section-desc">The AI4I Predictive Maintenance dataset contains <strong>10,000 samples</strong> with real machine sensor readings. Each row represents one operational snapshot of a machine.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feat-icon">🌡</div>
+          <div class="feat-name">Air Temperature</div>
+          <div class="feat-desc">Ambient air temp around the machine. Indicates cooling efficiency and thermal environment.</div>
+          <div class="feat-range">Range: 295–304 K</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🔥</div>
+          <div class="feat-name">Process Temperature</div>
+          <div class="feat-desc">Internal operating temperature. Higher values signal thermal stress on components.</div>
+          <div class="feat-range">Range: 305–314 K</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">⚙️</div>
+          <div class="feat-name">Rotational Speed</div>
+          <div class="feat-desc">RPM of the machine. Directly reflects operational load and mechanical wear.</div>
+          <div class="feat-range">Range: 1168–2886 rpm</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🔩</div>
+          <div class="feat-name">Torque</div>
+          <div class="feat-desc">Rotational force. High torque at low speed indicates excessive mechanical stress.</div>
+          <div class="feat-range">Range: 3.8–76.6 Nm</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🪛</div>
+          <div class="feat-name">Tool Wear</div>
+          <div class="feat-desc">Cumulative usage time of the cutting tool. A primary aging indicator for failure prediction.</div>
+          <div class="feat-range">Range: 0–253 min</div>
+        </div>
+        <div class="feature-card target-card">
+          <div class="feat-icon">🎯</div>
+          <div class="feat-name">Target (Label)</div>
+          <div class="feat-desc">Binary classification: 0 = No Failure, 1 = Failure. This is what we predict.</div>
+          <div class="feat-range">0 or 1</div>
+        </div>
+      </div>
+
+      <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>These features represent real machine sensor data and are critical indicators of machine health.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 3 — EDA
+  ══════════════════════════════════════ -->
+  <section id="eda" class="section">
+    <div class="section-inner reveal">
+      <div class="section-tag">03 — Exploratory Data Analysis</div>
+      <h2 class="section-title">Understanding the Data</h2>
+      <p class="section-desc">Before applying any ML technique, we explored the data to understand feature distributions, outliers, and relationships between variables.</p>
+
+      <div class="eda-grid">
+        <div class="eda-card">
+          <div class="eda-chart-title">Feature distributions</div>
+          <div class="mini-chart" id="chart-dist"></div>
+          <p class="eda-insight">Features follow near-normal distributions with some variation. Rotational speed shows slight left skew.</p>
+        </div>
+        <div class="eda-card">
+          <div class="eda-chart-title">Correlation heatmap</div>
+          <div class="heatmap-grid" id="heatmap"></div>
+          <p class="eda-insight">Air and process temperature are highly correlated (0.88). Torque and speed show negative correlation.</p>
+        </div>
+      </div>
+
+      <div class="insight-row">
+        <div class="insight-item"><span class="insight-icon">✓</span> Data is mostly normally distributed</div>
+        <div class="insight-item"><span class="insight-icon">✓</span> Some variation exists across features</div>
+        <div class="insight-item"><span class="insight-icon">✓</span> Features influence each other (correlated)</div>
+        <div class="insight-item"><span class="insight-icon">✓</span> No major missing values</div>
+      </div>
+
+      <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>We performed EDA to understand feature distributions and relationships before applying any machine learning techniques.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 4 — BIAS DETECTION
+  ══════════════════════════════════════ -->
+  <section id="bias" class="section alt-section bias-section">
+    <div class="section-inner reveal">
+      <div class="section-tag danger-tag">04 — ⚠ Problem Detected</div>
+      <h2 class="section-title">Class Imbalance — The Big Problem</h2>
+      <p class="section-desc">During EDA, we discovered a critical issue: the dataset is <strong>severely imbalanced</strong>.</p>
+
+      <div class="bias-visual">
+        <div class="bias-bar-wrap">
+          <div class="bias-label-row">
+            <span class="bias-class no-fail">No Failure</span>
+            <span class="bias-pct">96%</span>
+          </div>
+          <div class="bias-bar-bg"><div class="bias-bar-fill nf-fill" data-width="96"></div></div>
+          <div class="bias-label-row">
+            <span class="bias-class fail">Failure</span>
+            <span class="bias-pct">4%</span>
+          </div>
+          <div class="bias-bar-bg"><div class="bias-bar-fill f-fill" data-width="4"></div></div>
+        </div>
+        <div class="bias-count-cards">
+          <div class="count-card nf-card"><div class="count-num">9,661</div><div class="count-label">No Failure</div></div>
+          <div class="count-card f-card"><div class="count-num">339</div><div class="count-label">Failure</div></div>
+        </div>
+      </div>
+
+      <div class="danger-box">
+        <div class="danger-title">💥 Why this is dangerous</div>
+        <p>A model trained on this data can achieve <strong>96% accuracy by always predicting "No Failure"</strong> — without learning anything meaningful. This is called the accuracy paradox and makes the model completely useless for detecting real failures.</p>
+      </div>
+
+      <div class="viva-pill danger-viva">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>Class imbalance biases the model toward the majority class, reducing its ability to detect failures — the most important outcome.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 5+6 — SMOTE
+  ══════════════════════════════════════ -->
+  <section id="smote" class="section">
+    <div class="section-inner reveal">
+      <div class="section-tag">05 — Solution</div>
+      <h2 class="section-title">SMOTE — Fixing the Imbalance</h2>
+      <p class="section-desc">We applied <strong>Synthetic Minority Oversampling Technique (SMOTE)</strong> to generate new synthetic samples for the minority class rather than simply duplicating existing ones.</p>
+
+      <div class="smote-how">
+        <div class="smote-step">
+          <div class="smote-num">1</div>
+          <div class="smote-text">Pick a minority class sample</div>
+        </div>
+        <div class="smote-arrow">→</div>
+        <div class="smote-step">
+          <div class="smote-num">2</div>
+          <div class="smote-text">Find its K nearest neighbors</div>
+        </div>
+        <div class="smote-arrow">→</div>
+        <div class="smote-step">
+          <div class="smote-num">3</div>
+          <div class="smote-text">Interpolate new synthetic point</div>
+        </div>
+        <div class="smote-arrow">→</div>
+        <div class="smote-step">
+          <div class="smote-num">4</div>
+          <div class="smote-text">Add to dataset — balanced!</div>
+        </div>
+      </div>
+
+      <div class="before-after">
+        <div class="ba-card before-card">
+          <div class="ba-label">Before SMOTE</div>
+          <div class="ba-bars">
+            <div class="ba-bar-row"><span>No Failure</span><div class="ba-bg"><div class="ba-fill nf" style="width:96%">9,661</div></div></div>
+            <div class="ba-bar-row"><span>Failure</span><div class="ba-bg"><div class="ba-fill f" style="width:4%">339</div></div></div>
+          </div>
+          <div class="ba-ratio">28:1 ratio</div>
+        </div>
+        <div class="ba-arrow">⟶</div>
+        <div class="ba-card after-card">
+          <div class="ba-label">After SMOTE</div>
+          <div class="ba-bars">
+            <div class="ba-bar-row"><span>No Failure</span><div class="ba-bg"><div class="ba-fill nf" style="width:50%">9,661</div></div></div>
+            <div class="ba-bar-row"><span>Failure</span><div class="ba-bg"><div class="ba-fill f2" style="width:50%">9,661</div></div></div>
+          </div>
+          <div class="ba-ratio">1:1 ratio ✓</div>
+        </div>
+      </div>
+
+      <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>Instead of duplicating data, SMOTE creates synthetic data points by interpolating between existing minority class examples — improving generalization.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 7 — NORMALIZATION
+  ══════════════════════════════════════ -->
+  <section id="norm" class="section alt-section">
+    <div class="section-inner reveal">
+      <div class="section-tag">06 + 07 — Normalization</div>
+      <h2 class="section-title">Preparing the Final Dataset</h2>
+      <p class="section-desc">Features had very different numerical scales. We applied <strong>StandardScaler</strong> to bring all features to mean=0, std=1.</p>
+
+      <div class="norm-visual">
+        <div class="norm-col">
+          <div class="norm-title">Before scaling</div>
+          <div class="scale-row"><span class="scale-feat">Air Temp</span><span class="scale-val raw">298–304</span><span class="scale-unit">K</span></div>
+          <div class="scale-row"><span class="scale-feat">Rot. Speed</span><span class="scale-val raw">1168–2886</span><span class="scale-unit">rpm</span></div>
+          <div class="scale-row"><span class="scale-feat">Torque</span><span class="scale-val raw">3.8–76.6</span><span class="scale-unit">Nm</span></div>
+          <div class="scale-row"><span class="scale-feat">Tool Wear</span><span class="scale-val raw">0–253</span><span class="scale-unit">min</span></div>
+        </div>
+        <div class="norm-arrow">⟶</div>
+        <div class="norm-col">
+          <div class="norm-title">After StandardScaler</div>
+          <div class="scale-row"><span class="scale-feat">Air Temp</span><span class="scale-val norm">-1.2 to 1.2</span><span class="scale-unit">σ</span></div>
+          <div class="scale-row"><span class="scale-feat">Rot. Speed</span><span class="scale-val norm">-1.2 to 1.2</span><span class="scale-unit">σ</span></div>
+          <div class="scale-row"><span class="scale-feat">Torque</span><span class="scale-val norm">-1.2 to 1.2</span><span class="scale-unit">σ</span></div>
+          <div class="scale-row"><span class="scale-feat">Tool Wear</span><span class="scale-val norm">-1.2 to 1.2</span><span class="scale-unit">σ</span></div>
+        </div>
+      </div>
+
+      <div class="ready-badges">
+        <span class="badge">✓ Balanced</span>
+        <span class="badge">✓ Normalized</span>
+        <span class="badge">✓ Clean</span>
+        <span class="badge">✓ Ready for training</span>
+      </div>
+
+      <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>Normalization ensures all features contribute equally and improves performance of distance-based models like KNN.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 8 — MODELS
+  ══════════════════════════════════════ -->
+  <section id="models" class="section">
+    <div class="section-inner reveal">
+      <div class="section-tag">08 — Model Training</div>
+      <h2 class="section-title">Experimenting with Multiple Models</h2>
+      <p class="section-desc">We trained four base models and compared their performance using accuracy, precision, recall, and F1-score.</p>
+
+      <div class="model-table-wrap">
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1 Score</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="model-name">Logistic Regression</td>
+              <td><div class="meter-wrap"><div class="meter-fill" style="width:83.5%" data-val="83.5"></div></div><span class="meter-num">83.5%</span></td>
+              <td>84.4%</td><td>82.3%</td><td>83.3%</td>
+              <td><span class="verdict weak">Weak</span></td>
+            </tr>
+            <tr>
+              <td class="model-name">KNN (k=5)</td>
+              <td><div class="meter-wrap"><div class="meter-fill good" style="width:95.7%" data-val="95.7"></div></div><span class="meter-num">95.7%</span></td>
+              <td>93.1%</td><td><strong>98.7%</strong></td><td>95.8%</td>
+              <td><span class="verdict good-v">Good</span></td>
+            </tr>
+            <tr>
+              <td class="model-name">Decision Tree</td>
+              <td><div class="meter-wrap"><div class="meter-fill good" style="width:95.9%" data-val="95.9"></div></div><span class="meter-num">95.9%</span></td>
+              <td>95.3%</td><td>96.6%</td><td>95.9%</td>
+              <td><span class="verdict good-v">Good</span></td>
+            </tr>
+            <tr class="best-row">
+              <td class="model-name">Random Forest</td>
+              <td><div class="meter-wrap"><div class="meter-fill best" style="width:97.4%" data-val="97.4"></div></div><span class="meter-num">97.4%</span></td>
+              <td>96.4%</td><td>98.3%</td><td>97.4%</td>
+              <td><span class="verdict best-v">Best base</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="model-insight-row">
+        <div class="model-insight-card">
+          <div class="mi-title">Why KNN has high recall?</div>
+          <p>KNN finds the 5 nearest neighbors in feature space. After normalization, it catches almost all failures (98.7% recall) but has lower precision — more false alarms.</p>
+        </div>
+        <div class="model-insight-card">
+          <div class="mi-title">Why Random Forest wins?</div>
+          <p>RF builds 100 decision trees on random subsets and aggregates their votes. Ensemble learning reduces variance and avoids overfitting compared to a single tree.</p>
+        </div>
+      </div>
+
+      <div class="viva-pill">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>We evaluated models using accuracy, precision, recall, and F1-score — because accuracy alone is misleading on failure detection tasks.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 9 — HYBRID
+  ══════════════════════════════════════ -->
+  <section id="hybrid" class="section alt-section hybrid-section">
+    <div class="section-inner reveal">
+      <div class="section-tag accent-tag">09 — Innovation</div>
+      <h2 class="section-title">Hybrid Model — Best of Both Worlds</h2>
+      <p class="section-desc">We combined the top two models using a <strong>VotingClassifier</strong> — both models vote on the prediction and the majority wins.</p>
+
+      <div class="hybrid-diagram">
+        <div class="hybrid-input">Normalized input data</div>
+        <div class="hybrid-split">
+          <div class="hybrid-model rf-model">
+            <div class="hm-icon">🌲</div>
+            <div class="hm-name">Random Forest</div>
+            <div class="hm-acc">97.4%</div>
+            <div class="hm-vote">Vote: 1</div>
+          </div>
+          <div class="hybrid-model knn-model">
+            <div class="hm-icon">📍</div>
+            <div class="hm-name">KNN (k=5)</div>
+            <div class="hm-acc">95.7%</div>
+            <div class="hm-vote">Vote: 1</div>
+          </div>
+        </div>
+        <div class="hybrid-combine">Hard Voting → Majority wins</div>
+        <div class="hybrid-result">
+          <span class="hr-label">Prediction</span>
+          <span class="hr-val">⚠ Failure = 1</span>
+          <span class="hr-acc">97.5% accuracy</span>
+        </div>
+      </div>
+
+      <div class="viva-pill accent-viva">
+        <span class="viva-label">🎤 Viva Line</span>
+        <span>The hybrid model leverages the ensemble strength of RF and the proximity-based precision of KNN — outperforming either model alone.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION 10 — FINAL RESULT
+  ══════════════════════════════════════ -->
+  <section id="result" class="section result-section">
+    <div class="section-inner reveal">
+      <div class="section-tag">10 — Final Result</div>
+      <h2 class="section-title">Mission Accomplished</h2>
+      <p class="section-desc">We successfully built a complete predictive maintenance pipeline — from raw imbalanced sensor data to a high-performance failure detection system.</p>
+
+      <div class="result-hero-card">
+        <div class="rhc-model">Hybrid Model (RF + KNN)</div>
+        <div class="result-metrics">
+          <div class="rm-card"><div class="rm-num">97.5%</div><div class="rm-label">Accuracy</div></div>
+          <div class="rm-card"><div class="rm-num">97.3%</div><div class="rm-label">Precision</div></div>
+          <div class="rm-card"><div class="rm-num">97.6%</div><div class="rm-label">Recall</div></div>
+          <div class="rm-card"><div class="rm-num">97.5%</div><div class="rm-label">F1 Score</div></div>
+        </div>
+      </div>
+
+      <div class="pipeline-summary">
+        <div class="ps-step">📊 Raw Data</div>
+        <div class="ps-arr">→</div>
+        <div class="ps-step">⚖ SMOTE</div>
+        <div class="ps-arr">→</div>
+        <div class="ps-step">📐 Normalize</div>
+        <div class="ps-arr">→</div>
+        <div class="ps-step">🤖 Train</div>
+        <div class="ps-arr">→</div>
+        <div class="ps-step">🏆 Predict</div>
+      </div>
+
+      <div class="final-viva">
+        <div class="fv-title">🎤 Final Viva Statement</div>
+        <p>"We built a predictive maintenance system using machine learning that achieves 97.5% accuracy in detecting machine failures. By addressing class imbalance with SMOTE, normalizing features with StandardScaler, and combining Random Forest and KNN into a hybrid voting classifier, our system can reliably shift industrial maintenance from reactive to predictive — preventing downtime before it occurs."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <span>Predictive Maintenance · ML Mini Project</span>
+      <span class="footer-sep">·</span>
+      <span>Built with Flask + scikit-learn</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
