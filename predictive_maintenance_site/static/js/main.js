@@ -247,3 +247,53 @@ if (randomBtn) {
     }
   });
 }
+
+// --- SERVER WAKE-UP LOGIC ---
+document.addEventListener("DOMContentLoaded", () => {
+    const loader = document.getElementById("server-loader");
+    const loaderText = document.getElementById("loader-text");
+    
+    const entertainMessages = [
+        "Calibrating industrial sensors...",
+        "Tuning Hybrid Ensemble weights...",
+        "Normalizing dataset parameters...",
+        "Initializing RF decision trees...",
+        "Computing KNN neighbor clusters...",
+        "Stabilizing sensor data feed...",
+        "Training the predictive models...",
+        "Optimizing diagnostic pipeline...",
+        "Securing industrial interface...",
+        "Processing historical maintenance logs..."
+    ];
+
+    let msgIndex = 0;
+    const textInterval = setInterval(() => {
+        loaderText.style.opacity = 0;
+        setTimeout(() => {
+            msgIndex = (msgIndex + 1) % entertainMessages.length;
+            loaderText.textContent = entertainMessages[msgIndex];
+            loaderText.style.opacity = 1;
+        }, 300);
+    }, 3500);
+
+    // Function to check if server is active
+    const checkServer = async () => {
+        try {
+            // We ping the index page. Render's cold start will hang here until ready.
+            const response = await fetch("/", { method: "HEAD" });
+            if (response.ok) {
+                clearInterval(textInterval);
+                loader.classList.add("loaded");
+                console.log("Server active. Dashboard ready.");
+            } else {
+                setTimeout(checkServer, 2000);
+            }
+        } catch (err) {
+            // Still starting up or network issue
+            setTimeout(checkServer, 2000);
+        }
+    };
+
+    // Delay the first check slightly to let the animation start
+    setTimeout(checkServer, 1000);
+});

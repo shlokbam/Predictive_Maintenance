@@ -597,3 +597,112 @@ code{font-family:var(--font-mono);font-size:13px;background:var(--surface2);padd
 
 .log-line.active { color: var(--accent); }
 .log-line.hidden { display: none; }
+
+/* --- SERVER WAKE-UP OVERLAY STYLES --- */
+.server-loader {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s;
+  visibility: visible;
+}
+
+.server-loader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-bg-blur {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: #060608;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.loader-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 3rem;
+  width: 100%;
+  max-width: 450px;
+}
+
+.loader-icon-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 2.5rem;
+}
+
+.loader-ring {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 240, 255, 0.1);
+  border-top-color: var(--accent);
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.loader-core {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+.loader-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.loader-text-sequence {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  color: #666;
+  height: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.loader-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.loader-progress-fill {
+  height: 100%;
+  width: 30%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: indeterminateProgress 4s ease-in-out infinite;
+}
+
+@keyframes indeterminateProgress {
+  0% { transform: translateX(-100%) scaleX(0.5); }
+  50% { transform: translateX(50%) scaleX(1.5); }
+  100% { transform: translateX(200%) scaleX(0.5); }
+}
+
+.loader-note {
+  font-size: 0.8rem;
+  color: #444;
+  line-height: 1.5;
+}
