@@ -12,22 +12,13 @@ MODELS_DIR = os.path.join(BASE_DIR, "..", "phase2_models", "saved_models")
 
 # Load Models and Scaler
 def load_models():
-    models = {}
-    model_files = {
-        "logistic": "logistic.pkl",
-        "dt": "dt.pkl",
-        "knn": "knn.pkl",
-        "rf": "rf.pkl",
-        "hybrid": "hybrid.pkl"
-    }
-    
-    for name, filename in model_files.items():
-        path = os.path.join(MODELS_DIR, filename)
-        if os.path.exists(path):
-            with open(path, "rb") as f:
-                models[name] = pickle.load(f)
-        else:
-            print(f"Warning: {filename} not found at {path}")
+    model_path = os.path.join(MODELS_DIR, "hybrid.pkl")
+    hybrid_model = None
+    if os.path.exists(model_path):
+        with open(model_path, "rb") as f:
+            hybrid_model = pickle.load(f)
+    else:
+        print(f"Warning: hybrid.pkl not found at {model_path}")
             
     scaler_path = os.path.join(MODELS_DIR, "scaler.pkl")
     scaler = None
@@ -37,9 +28,9 @@ def load_models():
     else:
         print(f"Warning: scaler.pkl not found at {scaler_path}")
             
-    return models, scaler
+    return hybrid_model, scaler
 
-models, _scaler = load_models()
+hybrid_model, _scaler = load_models()
 
 @app.route("/")
 def index():
@@ -70,23 +61,22 @@ def predict():
             "Rotational speed [rpm]", "Torque [Nm]", "Tool wear [min]"
         ])
         
-        # Get predictions from all models
-        predictions = {}
-        for name, model in models.items():
-            # If the model expects scaled data, we should apply scaler
-            # However, the user might have some models trained on unscaled data (unlikely here)
-            # We'll use the global _scaler if it exists
-            if _scaler:
-                features_scaled = _scaler.transform(features_df)
-            else:
-                features_scaled = features_df.values
-                
-            pred = int(model.predict(features_scaled)[0])
-            predictions[name] = "Failure" if pred == 1 else "No Failure"
+        # Scale features
+        if _scaler:
+            features_scaled = _scaler.transform(features_df)
+        else:
+            features_scaled = features_df.values
+            
+        # Get prediction from the Hybrid model
+        if hybrid_model:
+            pred = int(hybrid_model.predict(features_scaled)[0])
+            prediction = "Failure" if pred == 1 else "No Failure"
+        else:
+            return jsonify({"status": "error", "message": "Model not loaded"}), 500
             
         return jsonify({
             "status": "success",
-            "predictions": predictions
+            "prediction": prediction
         })
         
     except Exception as e:

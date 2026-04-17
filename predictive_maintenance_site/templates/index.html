@@ -463,95 +463,88 @@
     <div class="section-inner reveal">
       <div class="section-tag accent-tag">Live Testing</div>
       <h2 class="section-title">Machine Health Tester</h2>
-      <p class="section-desc">Input real-time sensor data below to see how our models predict the machine's state. This uses the live API connected to our trained ML models.</p>
+      <p class="section-desc">Analyze real-time sensor data using our proprietary **Hybrid Ensemble Model**. This diagnostic tool provides the final predictive output based on aggregated model intelligence.</p>
       
       <div class="test-container">
-        <form id="prediction-form" class="test-form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="type">Machine Type</label>
-              <select id="type" name="type" required>
-                <option value="L">Low (L)</option>
-                <option value="M">Medium (M)</option>
-                <option value="H">High (H)</option>
-              </select>
-              <small>L, M, or H quality variants</small>
-            </div>
-            <div class="form-group">
-              <label for="air_temp">Air Temperature [K]</label>
-              <input type="number" id="air_temp" name="air_temp" step="0.1" placeholder="e.g. 298.1" required>
-              <small>Typical range: 295 - 305 K</small>
-            </div>
-            <div class="form-group">
-              <label for="process_temp">Process Temperature [K]</label>
-              <input type="number" id="process_temp" name="process_temp" step="0.1" placeholder="e.g. 308.6" required>
-              <small>Typical range: 305 - 315 K</small>
-            </div>
-            <div class="form-group">
-              <label for="rot_speed">Rotational Speed [rpm]</label>
-              <input type="number" id="rot_speed" name="rot_speed" placeholder="e.g. 1551" required>
-              <small>Typical range: 1200 - 2800 rpm</small>
-            </div>
-            <div class="form-group">
-              <label for="torque">Torque [Nm]</label>
-              <input type="number" id="torque" name="torque" step="0.1" placeholder="e.g. 42.8" required>
-              <small>Typical range: 10 - 75 Nm</small>
-            </div>
-            <div class="form-group">
-              <label for="tool_wear">Tool Wear [min]</label>
-              <input type="number" id="tool_wear" name="tool_wear" placeholder="e.g. 150" required>
-              <small>Typical range: 0 - 250 min</small>
-            </div>
+        <div class="test-layout">
+          <!-- Form Side -->
+          <div class="test-left">
+            <form id="prediction-form" class="test-form">
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label for="type">Machine Type</label>
+                  <select id="type" name="type" required>
+                    <option value="L">Low (L Quality)</option>
+                    <option value="M" selected>Medium (M Quality)</option>
+                    <option value="H">High (H Quality)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="air_temp">Air Temp [K]</label>
+                  <input type="number" id="air_temp" name="air_temp" step="0.1" placeholder="298.1" required>
+                </div>
+                <div class="form-group">
+                  <label for="process_temp">Proc Temp [K]</label>
+                  <input type="number" id="process_temp" name="process_temp" step="0.1" placeholder="308.6" required>
+                </div>
+                <div class="form-group">
+                  <label for="rot_speed">Speed [rpm]</label>
+                  <input type="number" id="rot_speed" name="rot_speed" placeholder="1551" required>
+                </div>
+                <div class="form-group">
+                  <label for="torque">Torque [Nm]</label>
+                  <input type="number" id="torque" name="torque" step="0.1" placeholder="42.8" required>
+                </div>
+                <div class="form-group full-width">
+                  <label for="tool_wear">Tool Wear [min]</label>
+                  <input type="number" id="tool_wear" name="tool_wear" placeholder="150" required>
+                </div>
+              </div>
+              <div class="test-form-footer">
+                <button type="button" class="random-btn" id="random-btn">
+                  <span class="btn-icon">🎲</span>
+                  <span class="btn-text">Randomize Data</span>
+                </button>
+                <button type="submit" class="predict-btn" id="submit-btn" style="flex: 1.5;">
+                  <span class="btn-text">Run Diagnostic</span>
+                  <div class="btn-loader hidden"></div>
+                </button>
+              </div>
+            </form>
           </div>
-          <button type="submit" class="predict-btn" id="submit-btn">
-            <span class="btn-text">Run Diagnostic</span>
-            <div class="btn-loader hidden"></div>
-          </button>
-        </form>
 
-        <div id="prediction-results" class="results-grid hidden">
-          <div class="res-card-wrap">
-            <div class="res-card" data-model="logistic">
-              <div class="res-icon">📈</div>
-              <div class="res-name">Logistic Regression</div>
-              <div class="res-status-box">
-                <span class="res-status">--</span>
+          <!-- Result Side (Card Style) -->
+          <div class="test-right">
+            <div id="prediction-results" class="machine-card hybrid-result-card initial">
+              <div class="machine-header">
+                <span class="machine-dot result-dot"></span>
+                <span class="machine-label">hybrid_ensemble.v1</span>
               </div>
-            </div>
-          </div>
-          <div class="res-card-wrap">
-            <div class="res-card" data-model="dt">
-              <div class="res-icon">🌳</div>
-              <div class="res-name">Decision Tree</div>
-              <div class="res-status-box">
-                <span class="res-status">--</span>
+              <div class="machine-body result-body">
+                <div class="result-placeholder">
+                  <div class="pulse-icon">📡</div>
+                  <p>Awaiting input data...</p>
+                </div>
+                <div class="result-content hidden">
+                  <div class="res-main">
+                    <span class="res-val" id="hybrid-status">--</span>
+                    <span class="res-label">Status Identified</span>
+                  </div>
+                  <div class="res-details">
+                    <div class="res-detail-item">
+                      <span class="rd-label">Confidence</span>
+                      <span class="rd-val">High (97.5%)</span>
+                    </div>
+                    <div class="res-detail-item">
+                      <span class="rd-label">Source</span>
+                      <span class="rd-val">RF + KNN Ensemble</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="res-card-wrap">
-            <div class="res-card" data-model="knn">
-              <div class="res-icon">📍</div>
-              <div class="res-name">KNN</div>
-              <div class="res-status-box">
-                <span class="res-status">--</span>
-              </div>
-            </div>
-          </div>
-          <div class="res-card-wrap">
-            <div class="res-card" data-model="rf">
-              <div class="res-icon">🌲</div>
-              <div class="res-name">Random Forest</div>
-              <div class="res-status-box">
-                <span class="res-status">--</span>
-              </div>
-            </div>
-          </div>
-          <div class="res-card-wrap highlight-wrap">
-            <div class="res-card highlight" data-model="hybrid">
-              <div class="res-icon">🏆</div>
-              <div class="res-name">Hybrid Ensemble</div>
-              <div class="res-status-box">
-                <span class="res-status">--</span>
+              <div class="machine-footer result-footer">
+                <span class="status-dot"></span>
+                <span class="status-message">System Idle</span>
               </div>
             </div>
           </div>
