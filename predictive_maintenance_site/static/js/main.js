@@ -67,6 +67,7 @@ const btnText = submitBtn.querySelector(".btn-text");
 
 const resPlaceholder = resultsCard.querySelector(".result-placeholder");
 const resContent = resultsCard.querySelector(".result-content");
+const diagLoader = resultsCard.querySelector(".diagnostic-loader");
 const hybridStatus = document.getElementById("hybrid-status");
 const statusDot = resultsCard.querySelector(".status-dot");
 const statusMsg = resultsCard.querySelector(".status-message");
@@ -81,13 +82,16 @@ if (predictionForm) {
     // UI Loading State
     submitBtn.disabled = true;
     btnLoader.classList.remove("hidden");
-    btnText.textContent = "Analyzing...";
+    btnText.textContent = "Processing...";
     
-    // Reset Card State
+    // Reset Card State & Show Mechanism
     resultsCard.classList.remove("initial", "safe", "fail");
-    resPlaceholder.classList.remove("hidden");
+    resPlaceholder.classList.add("hidden");
     resContent.classList.add("hidden");
-    statusMsg.textContent = "Analyzing Data...";
+    diagLoader.classList.remove("hidden");
+    
+    resetLogs();
+    statusMsg.textContent = "Computing Diagnostic...";
     statusDot.className = "status-dot pulse";
 
     try {
@@ -100,9 +104,9 @@ if (predictionForm) {
       const result = await response.json();
       
       if (result.status === "success") {
-        setTimeout(() => {
-          displayHybridResult(result.prediction);
-        }, 800); // Small delay for "AI thinking" feel
+        // Run The Animation Mechanism (Heavy Task feel)
+        await runDiagnosticSequence();
+        displayHybridResult(result.prediction);
       } else {
         alert("Error: " + result.message);
         resetResultCard();
@@ -115,8 +119,41 @@ if (predictionForm) {
       submitBtn.disabled = false;
       btnLoader.classList.add("hidden");
       btnText.textContent = "Run Diagnostic";
+      diagLoader.classList.add("hidden");
     }
   });
+}
+
+function resetLogs() {
+  document.querySelectorAll(".log-line").forEach((l, i) => {
+    if (i === 0) {
+      l.classList.remove("hidden", "active");
+    } else {
+      l.classList.add("hidden");
+    }
+  });
+}
+
+async function runDiagnosticSequence() {
+  const steps = [
+    { id: "log-1", delay: 400 },
+    { id: "log-2", delay: 600 },
+    { id: "log-3", delay: 800 },
+    { id: "log-4", delay: 600 },
+    { id: "log-5", delay: 400 }
+  ];
+
+  for (let step of steps) {
+    const el = document.getElementById(step.id);
+    if (el) {
+      el.classList.remove("hidden");
+      el.classList.add("active");
+      await new Promise(r => setTimeout(r, step.delay));
+      el.classList.remove("active");
+    }
+  }
+  // Extra pause for impact
+  await new Promise(r => setTimeout(r, 400));
 }
 
 function displayHybridResult(prediction) {
@@ -162,16 +199,30 @@ if (randomBtn) {
     const torqueInput = document.getElementById("torque");
     const wearInput = document.getElementById("tool_wear");
 
-    // Random Machine Type
-    const types = ["L", "M", "H"];
-    typeSelect.value = types[Math.floor(Math.random() * types.length)];
+    // 40% chance of generating a "Failure Scenario" to avoid looking biased
+    const generateFailure = Math.random() < 0.4;
+    
+    // Base Values
+    let type = ["L", "M", "H"][Math.floor(Math.random() * 3)];
+    let airTemp = (Math.random() * (305 - 295) + 295).toFixed(1);
+    let procTemp = (parseFloat(airTemp) + Math.random() * (12 - 8) + 8).toFixed(1);
+    let speed = Math.floor(Math.random() * (2800 - 1200) + 1200);
+    let torque = (Math.random() * (75 - 10) + 10).toFixed(1);
+    let wear = Math.floor(Math.random() * 250);
 
-    // Realistic Ranges
-    const airTemp = (Math.random() * (305 - 295) + 295).toFixed(1);
-    const procTemp = (parseFloat(airTemp) + Math.random() * (12 - 8) + 8).toFixed(1);
-    const speed = Math.floor(Math.random() * (2800 - 1200) + 1200);
-    const torque = (Math.random() * (75 - 10) + 10).toFixed(1);
-    const wear = Math.floor(Math.random() * 250);
+    if (generateFailure) {
+      const mode = Math.random();
+      if (mode < 0.5) {
+        // Mode 1: Overstrain (High Torque + Low Speed)
+        torque = (Math.random() * (75 - 65) + 65).toFixed(1);
+        speed = Math.floor(Math.random() * (1350 - 1200) + 1200);
+        wear = Math.floor(Math.random() * (250 - 150) + 150);
+      } else {
+        // Mode 2: Extreme Tool Wear
+        wear = Math.floor(Math.random() * (250 - 210) + 210);
+        torque = (Math.random() * (60 - 45) + 45).toFixed(1);
+      }
+    }
 
     // Update Inputs with animation
     const updateWithEffect = (el, val) => {
@@ -180,6 +231,7 @@ if (randomBtn) {
       setTimeout(() => el.classList.remove("highlight-flash"), 400);
     };
 
+    typeSelect.value = type;
     updateWithEffect(airTempInput, airTemp);
     updateWithEffect(procTempInput, procTemp);
     updateWithEffect(speedInput, speed);

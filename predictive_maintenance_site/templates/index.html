@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Predictive Maintenance — ML Project</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
   <div id="progress-bar"></div>
@@ -47,27 +51,68 @@
     <div class="hero-content reveal">
       <div class="section-tag">Mini Project · Machine Learning</div>
       <h1 class="hero-title">Predictive<br><em>Maintenance</em><br>Using ML</h1>
-      <p class="hero-sub">In industrial environments, unexpected machine failures lead to significant financial losses, production downtime, and safety risks. Traditional maintenance is either too early (wasteful) or too late (costly).</p>
-      <p class="hero-sub">This project builds a <strong>data-driven predictive system</strong> that analyses real machine sensor readings to forecast failures before they happen — enabling timely, targeted maintenance.</p>
+      <p class="hero-sub">In industrial environments, unexpected machine failures lead to significant financial losses,
+        production downtime, and safety risks. Traditional maintenance is either too early (wasteful) or too late
+        (costly).</p>
+      <p class="hero-sub">This project builds a <strong>data-driven predictive system</strong> that analyses real
+        machine sensor readings to forecast failures before they happen — enabling timely, targeted maintenance.</p>
       <div class="hero-stats">
-        <div class="stat-card"><div class="stat-num">10,000</div><div class="stat-desc">Data samples</div></div>
-        <div class="stat-card"><div class="stat-num">5</div><div class="stat-desc">Features</div></div>
-        <div class="stat-card"><div class="stat-num">5</div><div class="stat-desc">ML models</div></div>
-        <div class="stat-card"><div class="stat-num">97.5%</div><div class="stat-desc">Best accuracy</div></div>
+        <div class="stat-card">
+          <div class="stat-num">10,000</div>
+          <div class="stat-desc">Data samples</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5</div>
+          <div class="stat-desc">Features</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5</div>
+          <div class="stat-desc">ML models</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">97.5%</div>
+          <div class="stat-desc">Best accuracy</div>
+        </div>
       </div>
     </div>
     <div class="hero-visual reveal-right">
       <div class="machine-card">
         <div class="machine-header">
-          <span class="machine-dot green"></span><span class="machine-dot yellow"></span><span class="machine-dot red"></span>
+          <span class="machine-dot green"></span><span class="machine-dot yellow"></span><span
+            class="machine-dot red"></span>
           <span class="machine-label">sensor_feed.live</span>
         </div>
         <div class="machine-body">
-          <div class="sensor-row"><span class="sensor-name">Air Temp</span><span class="sensor-val anim-val" data-vals="298K,301K,299K,303K">298K</span><div class="sensor-bar"><div class="sensor-fill" style="width:62%"></div></div></div>
-          <div class="sensor-row"><span class="sensor-name">Process Temp</span><span class="sensor-val anim-val" data-vals="308K,311K,309K,313K">308K</span><div class="sensor-bar"><div class="sensor-fill" style="width:71%"></div></div></div>
-          <div class="sensor-row"><span class="sensor-name">Rot. Speed</span><span class="sensor-val anim-val" data-vals="1551rpm,1420rpm,1800rpm,1600rpm">1551rpm</span><div class="sensor-bar"><div class="sensor-fill warn" style="width:80%"></div></div></div>
-          <div class="sensor-row"><span class="sensor-name">Torque</span><span class="sensor-val anim-val" data-vals="42Nm,55Nm,38Nm,61Nm">42Nm</span><div class="sensor-bar"><div class="sensor-fill" style="width:45%"></div></div></div>
-          <div class="sensor-row"><span class="sensor-name">Tool Wear</span><span class="sensor-val anim-val" data-vals="198min,220min,175min,240min">198min</span><div class="sensor-bar"><div class="sensor-fill danger" style="width:88%"></div></div></div>
+          <div class="sensor-row"><span class="sensor-name">Air Temp</span><span class="sensor-val anim-val"
+              data-vals="298K,301K,299K,303K">298K</span>
+            <div class="sensor-bar">
+              <div class="sensor-fill" style="width:62%"></div>
+            </div>
+          </div>
+          <div class="sensor-row"><span class="sensor-name">Process Temp</span><span class="sensor-val anim-val"
+              data-vals="308K,311K,309K,313K">308K</span>
+            <div class="sensor-bar">
+              <div class="sensor-fill" style="width:71%"></div>
+            </div>
+          </div>
+          <div class="sensor-row"><span class="sensor-name">Rot. Speed</span><span class="sensor-val anim-val"
+              data-vals="1551rpm,1420rpm,1800rpm,1600rpm">1551rpm</span>
+            <div class="sensor-bar">
+              <div class="sensor-fill warn" style="width:80%"></div>
+            </div>
+          </div>
+          <div class="sensor-row"><span class="sensor-name">Torque</span><span class="sensor-val anim-val"
+              data-vals="42Nm,55Nm,38Nm,61Nm">42Nm</span>
+            <div class="sensor-bar">
+              <div class="sensor-fill" style="width:45%"></div>
+            </div>
+          </div>
+          <div class="sensor-row"><span class="sensor-name">Tool Wear</span><span class="sensor-val anim-val"
+              data-vals="198min,220min,175min,240min">198min</span>
+            <div class="sensor-bar">
+              <div class="sensor-fill danger" style="width:88%"></div>
+            </div>
+          </div>
         </div>
         <div class="machine-footer">
           <span class="status-dot pulse"></span>
@@ -83,14 +128,52 @@
     <div class="section-inner reveal">
       <div class="section-tag">02 — Dataset</div>
       <h2 class="section-title">What Data We Have</h2>
-      <p class="section-desc">The <strong>AI4I Predictive Maintenance Dataset</strong> contains 10,000 operational snapshots from a simulated milling machine. Each row captures the machine's state at one point in time, labelled as failure or no-failure.</p>
+      <p class="section-desc">The <strong>AI4I Predictive Maintenance Dataset</strong> contains 10,000 operational
+        snapshots from a simulated milling machine. Each row captures the machine's state at one point in time, labelled
+        as failure or no-failure.</p>
       <div class="feature-grid">
-        <div class="feature-card"><div class="feat-icon">🌡</div><div class="feat-name">Air Temperature [K]</div><div class="feat-desc">Ambient air temperature around the machine. Generated using a random walk process around 300 K. Affects cooling efficiency and thermal environment of the machine.</div><div class="feat-range">295 – 304 K</div></div>
-        <div class="feature-card"><div class="feat-icon">🔥</div><div class="feat-name">Process Temperature [K]</div><div class="feat-desc">Internal machine operating temperature. Always 8–10 K higher than air temperature due to heat generation. Thermal stress on components rises sharply above threshold.</div><div class="feat-range">305 – 314 K</div></div>
-        <div class="feature-card"><div class="feat-icon">⚙️</div><div class="feat-name">Rotational Speed [rpm]</div><div class="feat-desc">Spindle speed in revolutions per minute. Very high or very low speeds indicate operational stress or tool wear failure modes.</div><div class="feat-range">1168 – 2886 rpm</div></div>
-        <div class="feature-card"><div class="feat-icon">🔩</div><div class="feat-name">Torque [Nm]</div><div class="feat-desc">Rotational force applied to the cutting tool. High torque combined with low rotational speed is a strong indicator of mechanical overload and overstrain failure.</div><div class="feat-range">3.8 – 76.6 Nm</div></div>
-        <div class="feature-card"><div class="feat-icon">🪛</div><div class="feat-name">Tool Wear [min]</div><div class="feat-desc">Cumulative minutes the cutting tool has been in use. The primary aging indicator — tools beyond 200 min fail more frequently across all failure types.</div><div class="feat-range">0 – 253 min</div></div>
-        <div class="feature-card target-card"><div class="feat-icon">🎯</div><div class="feat-name">Target (Label)</div><div class="feat-desc">Binary classification label. 0 = No Failure, 1 = Failure. Derived from five sub-failure types: tool wear, heat dissipation, power, overstrain, and random failures.</div><div class="feat-range">0 or 1</div></div>
+        <div class="feature-card">
+          <div class="feat-icon">🌡</div>
+          <div class="feat-name">Air Temperature [K]</div>
+          <div class="feat-desc">Ambient air temperature around the machine. Generated using a random walk process
+            around 300 K. Affects cooling efficiency and thermal environment of the machine.</div>
+          <div class="feat-range">295 – 304 K</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🔥</div>
+          <div class="feat-name">Process Temperature [K]</div>
+          <div class="feat-desc">Internal machine operating temperature. Always 8–10 K higher than air temperature due
+            to heat generation. Thermal stress on components rises sharply above threshold.</div>
+          <div class="feat-range">305 – 314 K</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">⚙️</div>
+          <div class="feat-name">Rotational Speed [rpm]</div>
+          <div class="feat-desc">Spindle speed in revolutions per minute. Very high or very low speeds indicate
+            operational stress or tool wear failure modes.</div>
+          <div class="feat-range">1168 – 2886 rpm</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🔩</div>
+          <div class="feat-name">Torque [Nm]</div>
+          <div class="feat-desc">Rotational force applied to the cutting tool. High torque combined with low rotational
+            speed is a strong indicator of mechanical overload and overstrain failure.</div>
+          <div class="feat-range">3.8 – 76.6 Nm</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-icon">🪛</div>
+          <div class="feat-name">Tool Wear [min]</div>
+          <div class="feat-desc">Cumulative minutes the cutting tool has been in use. The primary aging indicator —
+            tools beyond 200 min fail more frequently across all failure types.</div>
+          <div class="feat-range">0 – 253 min</div>
+        </div>
+        <div class="feature-card target-card">
+          <div class="feat-icon">🎯</div>
+          <div class="feat-name">Target (Label)</div>
+          <div class="feat-desc">Binary classification label. 0 = No Failure, 1 = Failure. Derived from five sub-failure
+            types: tool wear, heat dissipation, power, overstrain, and random failures.</div>
+          <div class="feat-range">0 or 1</div>
+        </div>
       </div>
     </div>
   </section>
@@ -100,7 +183,8 @@
     <div class="section-inner reveal">
       <div class="section-tag">03 — Exploratory Data Analysis</div>
       <h2 class="section-title">Understanding the Raw Data</h2>
-      <p class="section-desc">Before applying any ML technique, we performed a thorough EDA on the original dataset to understand the shape of each feature, detect outliers, and discover relationships between variables.</p>
+      <p class="section-desc">Before applying any ML technique, we performed a thorough EDA on the original dataset to
+        understand the shape of each feature, detect outliers, and discover relationships between variables.</p>
 
       <div class="graph-block">
         <div class="graph-header">
@@ -119,7 +203,8 @@
           <div class="gi-stat"><span class="gi-label">Std Dev</span><span class="gi-val" id="di-std">2.0 K</span></div>
           <div class="gi-stat"><span class="gi-label">Min</span><span class="gi-val" id="di-min">295.3 K</span></div>
           <div class="gi-stat"><span class="gi-label">Max</span><span class="gi-val" id="di-max">304.5 K</span></div>
-          <div class="gi-insight" id="di-insight">Near-normal distribution. Random walk generation keeps values in a narrow band around 300 K. No major outliers detected.</div>
+          <div class="gi-insight" id="di-insight">Near-normal distribution. Random walk generation keeps values in a
+            narrow band around 300 K. No major outliers detected.</div>
         </div>
       </div>
 
@@ -131,7 +216,11 @@
         <div class="graph-wrap"><canvas id="boxChart" height="220"></canvas></div>
         <div class="info-card">
           <div class="ic-title">What the boxplots reveal</div>
-          <p>Rotational speed has a <strong>left skew</strong> — most machines operate in the 1200–1800 rpm range but a few run much faster. Torque shows <strong>high-end outliers</strong> beyond 65 Nm, which often correspond to overstrain failures. Tool wear is near-uniform since it increments linearly with usage time. These outliers are intentionally kept — they carry critical failure signal and removing them would reduce model sensitivity.</p>
+          <p>Rotational speed has a <strong>left skew</strong> — most machines operate in the 1200–1800 rpm range but a
+            few run much faster. Torque shows <strong>high-end outliers</strong> beyond 65 Nm, which often correspond to
+            overstrain failures. Tool wear is near-uniform since it increments linearly with usage time. These outliers
+            are intentionally kept — they carry critical failure signal and removing them would reduce model
+            sensitivity.</p>
         </div>
       </div>
 
@@ -143,9 +232,14 @@
         <div class="graph-wrap heatmap-container"><canvas id="heatmapChart" height="300"></canvas></div>
         <div class="info-card">
           <div class="ic-title">Key relationships discovered</div>
-          <p><strong>Air Temp ↔ Process Temp (r = 0.88):</strong> Strong positive correlation. When ambient temperature rises, internal machine temperature follows — increasing thermal stress risk.<br><br>
-          <strong>Rotational Speed ↔ Torque (r = −0.87):</strong> Strong negative correlation. This is mechanical law — power = speed × torque. Extreme combinations (very low speed + very high torque) trigger overstrain failures.<br><br>
-          <strong>Tool Wear ↔ Target (r = 0.09):</strong> Weak but real. Tool wear amplifies other failure modes rather than causing failures on its own.</p>
+          <p><strong>Air Temp ↔ Process Temp (r = 0.88):</strong> Strong positive correlation. When ambient temperature
+            rises, internal machine temperature follows — increasing thermal stress risk.<br><br>
+            <strong>Rotational Speed ↔ Torque (r = −0.87):</strong> Strong negative correlation. This is mechanical law
+            — power = speed × torque. Extreme combinations (very low speed + very high torque) trigger overstrain
+            failures.<br><br>
+            <strong>Tool Wear ↔ Target (r = 0.09):</strong> Weak but real. Tool wear amplifies other failure modes
+            rather than causing failures on its own.
+          </p>
         </div>
       </div>
     </div>
@@ -156,25 +250,38 @@
     <div class="section-inner reveal">
       <div class="section-tag danger-tag">04 — ⚠ Problem Detected</div>
       <h2 class="section-title">Class Imbalance — The Critical Problem</h2>
-      <p class="section-desc">During EDA, we discovered that the dataset is <strong>severely imbalanced</strong>. This is one of the most dangerous problems in real-world ML classification tasks.</p>
+      <p class="section-desc">During EDA, we discovered that the dataset is <strong>severely imbalanced</strong>. This
+        is one of the most dangerous problems in real-world ML classification tasks.</p>
       <div class="bias-chart-grid">
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Class Distribution — Original Dataset</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Class Distribution — Original Dataset</div>
+          </div>
           <div class="graph-wrap" style="max-height:280px"><canvas id="biasChart" height="240"></canvas></div>
         </div>
         <div class="bias-right">
-          <div class="count-card nf-card"><div class="count-num">9,661</div><div class="count-label">No Failure — 96.6%</div></div>
-          <div class="count-card f-card"><div class="count-num">339</div><div class="count-label">Failure — 3.4%</div></div>
+          <div class="count-card nf-card">
+            <div class="count-num">9,661</div>
+            <div class="count-label">No Failure — 96.6%</div>
+          </div>
+          <div class="count-card f-card">
+            <div class="count-num">339</div>
+            <div class="count-label">Failure — 3.4%</div>
+          </div>
           <div class="ratio-badge">28 : 1 imbalance ratio</div>
           <div class="info-card" style="margin-top:1rem">
             <div class="ic-title">The accuracy paradox</div>
-            <p>A model that always predicts "No Failure" achieves <strong>96.6% accuracy</strong> without learning anything. This is why we must use F1-score and recall as primary metrics — not accuracy.</p>
+            <p>A model that always predicts "No Failure" achieves <strong>96.6% accuracy</strong> without learning
+              anything. This is why we must use F1-score and recall as primary metrics — not accuracy.</p>
           </div>
         </div>
       </div>
       <div class="danger-box">
         <div class="danger-title">💥 Real-world consequence</div>
-        <p>In predictive maintenance, a <strong>missed failure (false negative)</strong> costs far more than a false alarm. An undetected failure can cause catastrophic equipment damage, production halt, or even worker injury. A biased model optimising for accuracy is useless — it would miss 100% of failures. We must fix the imbalance before training.</p>
+        <p>In predictive maintenance, a <strong>missed failure (false negative)</strong> costs far more than a false
+          alarm. An undetected failure can cause catastrophic equipment damage, production halt, or even worker injury.
+          A biased model optimising for accuracy is useless — it would miss 100% of failures. We must fix the imbalance
+          before training.</p>
       </div>
     </div>
   </section>
@@ -184,25 +291,43 @@
     <div class="section-inner reveal">
       <div class="section-tag">05 — Solution</div>
       <h2 class="section-title">SMOTE — Fixing the Imbalance</h2>
-      <p class="section-desc"><strong>Synthetic Minority Oversampling Technique (SMOTE)</strong> generates new synthetic samples for the minority class by interpolating between existing examples — preserving distribution while balancing classes. We used <code>random_state=42</code> for reproducibility.</p>
+      <p class="section-desc"><strong>Synthetic Minority Oversampling Technique (SMOTE)</strong> generates new synthetic
+        samples for the minority class by interpolating between existing examples — preserving distribution while
+        balancing classes. We used <code>random_state=42</code> for reproducibility.</p>
 
       <div class="smote-how">
-        <div class="smote-step"><div class="smote-num">1</div><div class="smote-text">Select a minority class sample</div></div>
+        <div class="smote-step">
+          <div class="smote-num">1</div>
+          <div class="smote-text">Select a minority class sample</div>
+        </div>
         <div class="smote-arrow">→</div>
-        <div class="smote-step"><div class="smote-num">2</div><div class="smote-text">Find K nearest minority neighbors</div></div>
+        <div class="smote-step">
+          <div class="smote-num">2</div>
+          <div class="smote-text">Find K nearest minority neighbors</div>
+        </div>
         <div class="smote-arrow">→</div>
-        <div class="smote-step"><div class="smote-num">3</div><div class="smote-text">Interpolate a new synthetic point</div></div>
+        <div class="smote-step">
+          <div class="smote-num">3</div>
+          <div class="smote-text">Interpolate a new synthetic point</div>
+        </div>
         <div class="smote-arrow">→</div>
-        <div class="smote-step"><div class="smote-num">4</div><div class="smote-text">Repeat until classes are equal</div></div>
+        <div class="smote-step">
+          <div class="smote-num">4</div>
+          <div class="smote-text">Repeat until classes are equal</div>
+        </div>
       </div>
 
       <div class="smote-charts-grid">
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Class Balance — Before SMOTE</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Class Balance — Before SMOTE</div>
+          </div>
           <div class="graph-wrap" style="max-height:250px"><canvas id="smoteBeforeChart" height="210"></canvas></div>
         </div>
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Class Balance — After SMOTE</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Class Balance — After SMOTE</div>
+          </div>
           <div class="graph-wrap" style="max-height:250px"><canvas id="smoteAfterChart" height="210"></canvas></div>
         </div>
       </div>
@@ -221,7 +346,10 @@
         <div class="graph-wrap"><canvas id="smoteCompChart" height="240"></canvas></div>
         <div class="info-card">
           <div class="ic-title">Validating SMOTE quality</div>
-          <p>Feature distributions remain <strong>structurally similar</strong> before and after SMOTE — confirming that synthetic samples follow the same statistical patterns as real data. The distributions overlap closely, meaning the synthetic failure samples are realistic interpolations rather than noise. This is the key advantage of SMOTE over simple oversampling (duplication), which would cause severe overfitting.</p>
+          <p>Feature distributions remain <strong>structurally similar</strong> before and after SMOTE — confirming that
+            synthetic samples follow the same statistical patterns as real data. The distributions overlap closely,
+            meaning the synthetic failure samples are realistic interpolations rather than noise. This is the key
+            advantage of SMOTE over simple oversampling (duplication), which would cause severe overfitting.</p>
         </div>
       </div>
     </div>
@@ -232,11 +360,14 @@
     <div class="section-inner reveal">
       <div class="section-tag">06 — Balanced Dataset EDA</div>
       <h2 class="section-title">Validating the Balanced Dataset</h2>
-      <p class="section-desc">After SMOTE, the dataset grew from 10,000 to <strong>19,322 samples</strong> (9,661 per class). We ran a fresh EDA pass to confirm the balance and verify statistical integrity.</p>
+      <p class="section-desc">After SMOTE, the dataset grew from 10,000 to <strong>19,322 samples</strong> (9,661 per
+        class). We ran a fresh EDA pass to confirm the balance and verify statistical integrity.</p>
 
       <div class="balanced-charts-grid">
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Class Distribution — Balanced</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Class Distribution — Balanced</div>
+          </div>
           <div class="graph-wrap" style="max-height:260px"><canvas id="balancedClassChart" height="220"></canvas></div>
         </div>
         <div class="graph-block">
@@ -262,7 +393,10 @@
         <div class="graph-wrap heatmap-container"><canvas id="balHeatmapChart" height="300"></canvas></div>
         <div class="info-card">
           <div class="ic-title">SMOTE preserves correlation structure</div>
-          <p>The correlation matrix is nearly identical to the original dataset. Air-Process temperature correlation remains at ~0.88, and the Speed-Torque negative correlation stays at ~−0.87. This is critical evidence that SMOTE generated statistically consistent samples — maintaining the underlying mechanical relationships of the machine rather than introducing artificial patterns.</p>
+          <p>The correlation matrix is nearly identical to the original dataset. Air-Process temperature correlation
+            remains at ~0.88, and the Speed-Torque negative correlation stays at ~−0.87. This is critical evidence that
+            SMOTE generated statistically consistent samples — maintaining the underlying mechanical relationships of
+            the machine rather than introducing artificial patterns.</p>
         </div>
       </div>
     </div>
@@ -273,15 +407,21 @@
     <div class="section-inner reveal">
       <div class="section-tag">07 — Normalization</div>
       <h2 class="section-title">StandardScaler — Preparing for Training</h2>
-      <p class="section-desc">Features exist at vastly different numerical scales. <strong>StandardScaler</strong> transforms each feature to zero mean and unit standard deviation so no feature dominates others due to magnitude alone.</p>
+      <p class="section-desc">Features exist at vastly different numerical scales. <strong>StandardScaler</strong>
+        transforms each feature to zero mean and unit standard deviation so no feature dominates others due to magnitude
+        alone.</p>
 
       <div class="norm-charts-grid">
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Feature Ranges — Before Normalization</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Feature Ranges — Before Normalization</div>
+          </div>
           <div class="graph-wrap"><canvas id="normBeforeChart" height="220"></canvas></div>
         </div>
         <div class="graph-block">
-          <div class="graph-header"><div class="graph-title">Feature Ranges — After Normalization</div></div>
+          <div class="graph-header">
+            <div class="graph-title">Feature Ranges — After Normalization</div>
+          </div>
           <div class="graph-wrap"><canvas id="normAfterChart" height="220"></canvas></div>
         </div>
       </div>
@@ -300,9 +440,14 @@
         <div class="graph-wrap"><canvas id="normDistChart" height="240"></canvas></div>
         <div class="info-card">
           <div class="ic-title">Why normalization matters here</div>
-          <p><strong>KNN</strong> computes similarity using Euclidean distance. Without normalization, rotational speed (range ~1700) dominates over torque (range ~73) purely due to scale. After StandardScaler, all five features contribute equally to distance calculations.<br><br>
-          <strong>Logistic Regression</strong> uses gradient descent to fit coefficients — unnormalized features cause slow convergence and biased weights.<br><br>
-          <strong>Random Forest and Decision Tree</strong> are scale-invariant by nature but normalization ensures consistent preprocessing across the entire pipeline.</p>
+          <p><strong>KNN</strong> computes similarity using Euclidean distance. Without normalization, rotational speed
+            (range ~1700) dominates over torque (range ~73) purely due to scale. After StandardScaler, all five features
+            contribute equally to distance calculations.<br><br>
+            <strong>Logistic Regression</strong> uses gradient descent to fit coefficients — unnormalized features cause
+            slow convergence and biased weights.<br><br>
+            <strong>Random Forest and Decision Tree</strong> are scale-invariant by nature but normalization ensures
+            consistent preprocessing across the entire pipeline.
+          </p>
         </div>
       </div>
 
@@ -321,10 +466,13 @@
     <div class="section-inner reveal">
       <div class="section-tag">08 — Model Training</div>
       <h2 class="section-title">Training &amp; Comparing Models</h2>
-      <p class="section-desc">We trained four base classifiers with a <strong>stratified 80/20 train-test split</strong> (random_state=42). Stratification ensures both train and test sets maintain the balanced 50/50 class ratio.</p>
+      <p class="section-desc">We trained four base classifiers with a <strong>stratified 80/20 train-test split</strong>
+        (random_state=42). Stratification ensures both train and test sets maintain the balanced 50/50 class ratio.</p>
 
       <div class="graph-block">
-        <div class="graph-header"><div class="graph-title">Model Accuracy Comparison</div></div>
+        <div class="graph-header">
+          <div class="graph-title">Model Accuracy Comparison</div>
+        </div>
         <div class="graph-wrap"><canvas id="accuracyChart" height="230"></canvas></div>
       </div>
 
@@ -340,22 +488,28 @@
         <div class="model-insight-card lr-card">
           <div class="mi-badge weak">83.5%</div>
           <div class="mi-title">Logistic Regression</div>
-          <p>Linear decision boundary fails to capture non-linear interactions between features like speed-torque combinations. Useful as a baseline but insufficient for complex failure patterns in sensor data.</p>
+          <p>Linear decision boundary fails to capture non-linear interactions between features like speed-torque
+            combinations. Useful as a baseline but insufficient for complex failure patterns in sensor data.</p>
         </div>
         <div class="model-insight-card knn-card">
           <div class="mi-badge good">95.7%</div>
           <div class="mi-title">KNN (k=5)</div>
-          <p>Finds 5 nearest neighbors in normalized feature space. Achieves the <strong>highest recall (98.7%)</strong> — misses very few failures. Lower precision (93.1%) means more false alarms. Performance entirely depends on normalization.</p>
+          <p>Finds 5 nearest neighbors in normalized feature space. Achieves the <strong>highest recall (98.7%)</strong>
+            — misses very few failures. Lower precision (93.1%) means more false alarms. Performance entirely depends on
+            normalization.</p>
         </div>
         <div class="model-insight-card dt-card">
           <div class="mi-badge good">95.9%</div>
           <div class="mi-title">Decision Tree</div>
-          <p>Learns explicit IF-THEN rules from feature thresholds. Highly interpretable. Slightly prone to overfitting which the Random Forest ensemble approach corrects. Good balance between precision and recall.</p>
+          <p>Learns explicit IF-THEN rules from feature thresholds. Highly interpretable. Slightly prone to overfitting
+            which the Random Forest ensemble approach corrects. Good balance between precision and recall.</p>
         </div>
         <div class="model-insight-card rf-card">
           <div class="mi-badge best">97.4%</div>
           <div class="mi-title">Random Forest</div>
-          <p>Builds 100 trees on random feature subsets, aggregates votes. Best balance of precision (96.4%) and recall (98.3%) among base models. Ensemble approach reduces variance and avoids overfitting compared to a single decision tree.</p>
+          <p>Builds 100 trees on random feature subsets, aggregates votes. Best balance of precision (96.4%) and recall
+            (98.3%) among base models. Ensemble approach reduces variance and avoids overfitting compared to a single
+            decision tree.</p>
         </div>
       </div>
     </div>
@@ -366,7 +520,9 @@
     <div class="section-inner reveal">
       <div class="section-tag accent-tag">09 — Innovation</div>
       <h2 class="section-title">Hybrid Model — Best of Both Worlds</h2>
-      <p class="section-desc">We combined the top two models using a <strong>Hard Voting Classifier (sklearn VotingClassifier)</strong>. Each model independently predicts the class and the majority vote determines the final output — reducing the individual weaknesses of each model.</p>
+      <p class="section-desc">We combined the top two models using a <strong>Hard Voting Classifier (sklearn
+          VotingClassifier)</strong>. Each model independently predicts the class and the majority vote determines the
+        final output — reducing the individual weaknesses of each model.</p>
 
       <div class="hybrid-diagram">
         <div class="hybrid-input">Normalized test data (3,865 samples)</div>
@@ -402,7 +558,11 @@
         <div class="graph-wrap"><canvas id="finalCompChart" height="280"></canvas></div>
         <div class="info-card">
           <div class="ic-title">Why does combining models help?</div>
-          <p>RF is strong at precision — it avoids false alarms by being conservative. KNN is strong at recall — it catches almost all true failures by considering local feature space proximity. When RF misclassifies a borderline failure case, KNN's proximity-based vote often corrects it, and vice versa. The combination produces a classifier that is simultaneously more precise and more sensitive than either model alone — achieving the best F1 score of 97.5%.</p>
+          <p>RF is strong at precision — it avoids false alarms by being conservative. KNN is strong at recall — it
+            catches almost all true failures by considering local feature space proximity. When RF misclassifies a
+            borderline failure case, KNN's proximity-based vote often corrects it, and vice versa. The combination
+            produces a classifier that is simultaneously more precise and more sensitive than either model alone —
+            achieving the best F1 score of 97.5%.</p>
         </div>
       </div>
     </div>
@@ -413,15 +573,28 @@
     <div class="section-inner reveal">
       <div class="section-tag">10 — Final Result</div>
       <h2 class="section-title">Mission Accomplished</h2>
-      <p class="section-desc">We built a complete end-to-end predictive maintenance pipeline — from raw imbalanced sensor data to a high-performance failure detection system — across five systematic stages.</p>
+      <p class="section-desc">We built a complete end-to-end predictive maintenance pipeline — from raw imbalanced
+        sensor data to a high-performance failure detection system — across five systematic stages.</p>
 
       <div class="result-hero-card">
         <div class="rhc-model">🏆 Best Model: Hybrid (RF + KNN) — sklearn VotingClassifier</div>
         <div class="result-metrics">
-          <div class="rm-card"><div class="rm-num">97.5%</div><div class="rm-label">Accuracy</div></div>
-          <div class="rm-card"><div class="rm-num">97.3%</div><div class="rm-label">Precision</div></div>
-          <div class="rm-card"><div class="rm-num">97.6%</div><div class="rm-label">Recall</div></div>
-          <div class="rm-card"><div class="rm-num">97.5%</div><div class="rm-label">F1 Score</div></div>
+          <div class="rm-card">
+            <div class="rm-num">97.5%</div>
+            <div class="rm-label">Accuracy</div>
+          </div>
+          <div class="rm-card">
+            <div class="rm-num">97.3%</div>
+            <div class="rm-label">Precision</div>
+          </div>
+          <div class="rm-card">
+            <div class="rm-num">97.6%</div>
+            <div class="rm-label">Recall</div>
+          </div>
+          <div class="rm-card">
+            <div class="rm-num">97.5%</div>
+            <div class="rm-label">F1 Score</div>
+          </div>
         </div>
       </div>
 
@@ -441,17 +614,20 @@
         <div class="impact-card">
           <div class="impact-icon">🎯</div>
           <div class="impact-title">High Recall (97.6%)</div>
-          <p>The system correctly identifies nearly all actual machine failures — minimising undetected breakdowns, catastrophic damage, and production halts.</p>
+          <p>The system correctly identifies nearly all actual machine failures — minimising undetected breakdowns,
+            catastrophic damage, and production halts.</p>
         </div>
         <div class="impact-card">
           <div class="impact-icon">⚡</div>
           <div class="impact-title">High Precision (97.3%)</div>
-          <p>Very few false alarms — maintenance teams are not overwhelmed with unnecessary work orders, keeping operations efficient and cost-effective.</p>
+          <p>Very few false alarms — maintenance teams are not overwhelmed with unnecessary work orders, keeping
+            operations efficient and cost-effective.</p>
         </div>
         <div class="impact-card">
           <div class="impact-icon">📈</div>
           <div class="impact-title">Real-world Impact</div>
-          <p>Predictive maintenance reduces unplanned downtime by up to 50% and maintenance costs by up to 25% compared to reactive approaches in real industrial deployments.</p>
+          <p>Predictive maintenance reduces unplanned downtime by up to 50% and maintenance costs by up to 25% compared
+            to reactive approaches in real industrial deployments.</p>
         </div>
       </div>
     </div>
@@ -463,8 +639,9 @@
     <div class="section-inner reveal">
       <div class="section-tag accent-tag">Live Testing</div>
       <h2 class="section-title">Machine Health Tester</h2>
-      <p class="section-desc">Analyze real-time sensor data using our proprietary **Hybrid Ensemble Model**. This diagnostic tool provides the final predictive output based on aggregated model intelligence.</p>
-      
+      <p class="section-desc">Analyze real-time sensor data using our proprietary **Hybrid Ensemble Model**. This
+        diagnostic tool provides the final predictive output based on aggregated model intelligence.</p>
+
       <div class="test-container">
         <div class="test-layout">
           <!-- Form Side -->
@@ -525,6 +702,24 @@
                   <div class="pulse-icon">📡</div>
                   <p>Awaiting input data...</p>
                 </div>
+                
+                <!-- DIAGNOSTIC LOADER (The Mechanism) -->
+                <div class="diagnostic-loader hidden">
+                  <div class="scanning-line"></div>
+                  <div class="loader-circles">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                  </div>
+                  <div class="diagnostic-logs">
+                    <div class="log-line" id="log-1">Initializing Diagnostic...</div>
+                    <div class="log-line hidden" id="log-2">Normalizing Sensor Input...</div>
+                    <div class="log-line hidden" id="log-3">Running RF Ensemble...</div>
+                    <div class="log-line hidden" id="log-4">Computing KNN Weights...</div>
+                    <div class="log-line hidden" id="log-5">Aggregating Predictions...</div>
+                  </div>
+                </div>
+
                 <div class="result-content hidden">
                   <div class="res-main">
                     <span class="res-val" id="hybrid-status">--</span>
@@ -553,16 +748,47 @@
     </div>
   </section>
 
-  <footer>
-    <div class="footer-inner">
-      <span>Predictive Maintenance · ML Mini Project</span>
-      <span class="footer-sep">·</span>
-      <span>Flask + Chart.js + scikit-learn</span>
+  <!-- FOOTER -->
+  <section class="footer-section">
+    <div class="footer-divider"></div>
+    <div class="section-inner">
+      <div class="footer-main">
+        <div class="footer-col-brand">
+          <div class="nav-logo">PM<span class="dot">.</span>ML</div>
+          <p class="footer-brand-text">A data-driven machine learning project focused on predictive industrial
+            maintenance and failure detection.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Project Guide</h4>
+          <div class="guide-card">
+            <span class="guide-name">Dr. Deepali Joshi</span>
+            <span class="guide-title">Project Supervisor</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Team members</h4>
+          <ul class="team-list">
+            <li>Shlok Bam</li>
+            <li>Avantika Sawant</li>
+            <li>Ishan Soman</li>
+            <li>Shreyas Chulliyan</li>
+            <li>Samruddhi Shinde</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2024 Predictive Maintenance Project · Engineering Mini Project</div>
+        <div class="footer-tech">Flask · Scikit-Learn · Chart.js</div>
+      </div>
     </div>
-  </footer>
+  </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 </body>
+
 </html>
