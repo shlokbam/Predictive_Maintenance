@@ -457,6 +457,109 @@
     </div>
   </section>
 
+  <!-- TESTING AREA -->
+  <section id="testing" class="section testing-section">
+    <div class="test-reveal-bg"></div>
+    <div class="section-inner reveal">
+      <div class="section-tag accent-tag">Live Testing</div>
+      <h2 class="section-title">Machine Health Tester</h2>
+      <p class="section-desc">Input real-time sensor data below to see how our models predict the machine's state. This uses the live API connected to our trained ML models.</p>
+      
+      <div class="test-container">
+        <form id="prediction-form" class="test-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="type">Machine Type</label>
+              <select id="type" name="type" required>
+                <option value="L">Low (L)</option>
+                <option value="M">Medium (M)</option>
+                <option value="H">High (H)</option>
+              </select>
+              <small>L, M, or H quality variants</small>
+            </div>
+            <div class="form-group">
+              <label for="air_temp">Air Temperature [K]</label>
+              <input type="number" id="air_temp" name="air_temp" step="0.1" placeholder="e.g. 298.1" required>
+              <small>Typical range: 295 - 305 K</small>
+            </div>
+            <div class="form-group">
+              <label for="process_temp">Process Temperature [K]</label>
+              <input type="number" id="process_temp" name="process_temp" step="0.1" placeholder="e.g. 308.6" required>
+              <small>Typical range: 305 - 315 K</small>
+            </div>
+            <div class="form-group">
+              <label for="rot_speed">Rotational Speed [rpm]</label>
+              <input type="number" id="rot_speed" name="rot_speed" placeholder="e.g. 1551" required>
+              <small>Typical range: 1200 - 2800 rpm</small>
+            </div>
+            <div class="form-group">
+              <label for="torque">Torque [Nm]</label>
+              <input type="number" id="torque" name="torque" step="0.1" placeholder="e.g. 42.8" required>
+              <small>Typical range: 10 - 75 Nm</small>
+            </div>
+            <div class="form-group">
+              <label for="tool_wear">Tool Wear [min]</label>
+              <input type="number" id="tool_wear" name="tool_wear" placeholder="e.g. 150" required>
+              <small>Typical range: 0 - 250 min</small>
+            </div>
+          </div>
+          <button type="submit" class="predict-btn" id="submit-btn">
+            <span class="btn-text">Run Diagnostic</span>
+            <div class="btn-loader hidden"></div>
+          </button>
+        </form>
+
+        <div id="prediction-results" class="results-grid hidden">
+          <div class="res-card-wrap">
+            <div class="res-card" data-model="logistic">
+              <div class="res-icon">📈</div>
+              <div class="res-name">Logistic Regression</div>
+              <div class="res-status-box">
+                <span class="res-status">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="res-card-wrap">
+            <div class="res-card" data-model="dt">
+              <div class="res-icon">🌳</div>
+              <div class="res-name">Decision Tree</div>
+              <div class="res-status-box">
+                <span class="res-status">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="res-card-wrap">
+            <div class="res-card" data-model="knn">
+              <div class="res-icon">📍</div>
+              <div class="res-name">KNN</div>
+              <div class="res-status-box">
+                <span class="res-status">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="res-card-wrap">
+            <div class="res-card" data-model="rf">
+              <div class="res-icon">🌲</div>
+              <div class="res-name">Random Forest</div>
+              <div class="res-status-box">
+                <span class="res-status">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="res-card-wrap highlight-wrap">
+            <div class="res-card highlight" data-model="hybrid">
+              <div class="res-icon">🏆</div>
+              <div class="res-name">Hybrid Ensemble</div>
+              <div class="res-status-box">
+                <span class="res-status">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="footer-inner">
       <span>Predictive Maintenance · ML Mini Project</span>

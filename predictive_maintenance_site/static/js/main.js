@@ -58,3 +58,78 @@ document.addEventListener("DOMContentLoaded", () => {
   animateSensors();
   animateSensorBars();
 });
+// PREDICTION FORM LOGIC
+const predictionForm = document.getElementById("prediction-form");
+const resultsGrid = document.getElementById("prediction-results");
+const submitBtn = document.getElementById("submit-btn");
+const btnLoader = submitBtn.querySelector(".btn-loader");
+const btnText = submitBtn.querySelector(".btn-text");
+
+if (predictionForm) {
+  predictionForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(predictionForm);
+    const data = Object.fromEntries(formData.entries());
+    
+    // UI Loading State
+    submitBtn.disabled = true;
+    btnLoader.classList.remove("hidden");
+    btnText.textContent = "Analyzing...";
+    resultsGrid.classList.add("hidden");
+    
+    try {
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      
+      const result = await response.json();
+      
+      if (result.status === "success") {
+        displayResults(result.predictions);
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while connecting to the server.");
+    } finally {
+      submitBtn.disabled = false;
+      btnLoader.classList.add("hidden");
+      btnText.textContent = "Run Diagnostic";
+    }
+  });
+}
+
+function displayResults(predictions) {
+  resultsGrid.classList.remove("hidden");
+  
+  for (const [model, status] of Object.entries(predictions)) {
+    const card = document.querySelector(`.res-card[data-model="${model}"]`);
+    if (card) {
+      const statusEl = card.querySelector(".res-status");
+      statusEl.textContent = status;
+      
+      // Remove old status classes
+      statusEl.parentElement.classList.remove("status-safe", "status-fail");
+      
+      // Add new status class
+      if (status === "No Failure") {
+        statusEl.parentElement.classList.add("status-safe");
+      } else {
+        statusEl.parentElement.classList.add("status-fail");
+      }
+
+      // Small bounce animation
+      card.style.transform = "scale(1.05)";
+      setTimeout(() => card.style.transform = "scale(1)", 200);
+    }
+  }
+  
+  // Scroll to results if on mobile
+  if (window.innerWidth < 768) {
+    resultsGrid.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
