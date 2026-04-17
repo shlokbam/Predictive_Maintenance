@@ -1,7 +1,6 @@
 pandas
 numpy
-matplotlib
-seaborn
-imbalanced-learn 
 scikit-learn
-Flaskgunicorn
+Flask
+gunicorn
+imbalanced-learn
