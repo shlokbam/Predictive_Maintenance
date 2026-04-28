@@ -9,6 +9,8 @@ app = Flask(__name__)
 # Define paths for models and scaler
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(BASE_DIR, "..", "phase2_models", "saved_models")
+OUTPUTS_DIR = os.path.join(BASE_DIR, "..", "phase2_models", "outputs")
+
 
 # Load Models and Scaler
 def load_models():
@@ -35,6 +37,16 @@ hybrid_model, _scaler = load_models()
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/evaluation")
+def evaluation():
+    import json
+    eval_path = os.path.join(OUTPUTS_DIR, "model_evaluation.json")
+    if os.path.exists(eval_path):
+        with open(eval_path) as f:
+            return jsonify(json.load(f))
+    return jsonify({})
+
 
 @app.route("/predict", methods=["POST"])
 def predict():

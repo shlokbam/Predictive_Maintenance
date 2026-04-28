@@ -46,6 +46,7 @@
       <li><a href="#balanced">Balanced</a></li>
       <li><a href="#norm">Normalization</a></li>
       <li><a href="#models">Models</a></li>
+      <li><a href="#evaluation">Eval</a></li>
       <li><a href="#hybrid">Hybrid</a></li>
       <li><a href="#result">Result</a></li>
       <li><a href="#testing" class="nav-predict-link">Predict</a></li>
@@ -62,6 +63,7 @@
     <a href="#balanced" class="drawer-link">Balanced</a>
     <a href="#norm" class="drawer-link">Normalization</a>
     <a href="#models" class="drawer-link">Models</a>
+    <a href="#evaluation" class="drawer-link">Eval</a>
     <a href="#hybrid" class="drawer-link">Hybrid</a>
     <a href="#result" class="drawer-link">Result</a>
     <a href="#testing" class="drawer-link drawer-predict-link">Predict</a>
@@ -534,6 +536,88 @@
           <p>Builds 100 trees on random feature subsets, aggregates votes. Best balance of precision (96.4%) and recall
             (98.3%) among base models. Ensemble approach reduces variance and avoids overfitting compared to a single
             decision tree.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVALUATION -->
+  <section id="evaluation" class="section alt-section">
+    <div class="section-inner reveal">
+      <div class="section-tag">— Model Evaluation</div>
+      <h2 class="section-title">Confusion Matrix &amp; ROC Curves</h2>
+      <p class="section-desc">Deep-dive evaluation of every model. The confusion matrix shows exactly what each model got right and wrong. The ROC curve shows performance across all decision thresholds — AUC closer to 1.0 is better.</p>
+
+      <!-- Model Selector Tabs -->
+      <div class="graph-tabs" id="eval-model-tabs" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem">
+        <button class="gtab active" data-emodel="Logistic Regression">Logistic Reg.</button>
+        <button class="gtab" data-emodel="Decision Tree">Decision Tree</button>
+        <button class="gtab" data-emodel="KNN">KNN</button>
+        <button class="gtab" data-emodel="Random Forest">Random Forest</button>
+        <button class="gtab" data-emodel="Hybrid (RF + KNN)">Hybrid</button>
+      </div>
+
+      <div class="eval-charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+
+        <!-- Confusion Matrix -->
+        <div class="graph-block">
+          <div class="graph-header">
+            <div class="graph-title">Confusion Matrix</div>
+            <div class="graph-subtitle">Actual vs Predicted on test set (3,865 samples)</div>
+          </div>
+          <div id="cm-display" style="padding:1rem">
+            <div style="display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.4rem;font-family:var(--font-mono,monospace);font-size:.85rem">
+              <div></div>
+              <div style="text-align:center;color:var(--accent,#00f0ff);font-size:.75rem;padding:.3rem">Predicted<br>No Failure</div>
+              <div style="text-align:center;color:#ff6b6b;font-size:.75rem;padding:.3rem">Predicted<br>Failure</div>
+              <div style="display:flex;align-items:center;color:var(--accent,#00f0ff);font-size:.75rem;writing-mode:horizontal-tb;padding:.3rem;white-space:nowrap">Actual No Failure</div>
+              <div id="cm-tn" class="cm-cell cm-tn">—</div>
+              <div id="cm-fp" class="cm-cell cm-fp">—</div>
+              <div style="display:flex;align-items:center;color:#ff6b6b;font-size:.75rem;padding:.3rem;white-space:nowrap">Actual Failure</div>
+              <div id="cm-fn" class="cm-cell cm-fn">—</div>
+              <div id="cm-tp" class="cm-cell cm-tp">—</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem">
+              <div class="info-card" style="margin:0;padding:.6rem .8rem">
+                <div style="font-size:.7rem;color:var(--muted,#888)">True Negatives (TN)</div>
+                <div style="font-size:.75rem;color:#ccc;margin-top:.2rem">Correctly said No Failure</div>
+              </div>
+              <div class="info-card" style="margin:0;padding:.6rem .8rem">
+                <div style="font-size:.7rem;color:#ffaa00">False Positives (FP)</div>
+                <div style="font-size:.75rem;color:#ccc;margin-top:.2rem">False alarms raised</div>
+              </div>
+              <div class="info-card" style="margin:0;padding:.6rem .8rem">
+                <div style="font-size:.7rem;color:#ff6b6b">False Negatives (FN)</div>
+                <div style="font-size:.75rem;color:#ccc;margin-top:.2rem">Missed failures ⚠</div>
+              </div>
+              <div class="info-card" style="margin:0;padding:.6rem .8rem">
+                <div style="font-size:.7rem;color:#00e676">True Positives (TP)</div>
+                <div style="font-size:.75rem;color:#ccc;margin-top:.2rem">Correctly caught failures</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual ROC Chart -->
+        <div class="graph-block">
+          <div class="graph-header">
+            <div class="graph-title">ROC Curve — <span id="roc-model-label">Logistic Regression</span></div>
+            <div class="graph-subtitle" id="roc-auc-label">AUC: —</div>
+          </div>
+          <div class="graph-wrap"><canvas id="rocSingleChart" height="260"></canvas></div>
+        </div>
+      </div>
+
+      <!-- All-Models ROC Overlay -->
+      <div class="graph-block" style="margin-top:2rem">
+        <div class="graph-header">
+          <div class="graph-title">All Models — ROC Curve Comparison</div>
+          <div class="graph-subtitle">Higher and more left-bowed = better. AUC = area under the curve.</div>
+        </div>
+        <div class="graph-wrap"><canvas id="rocAllChart" height="280"></canvas></div>
+        <div class="info-card">
+          <div class="ic-title">How to read this chart</div>
+          <p>The diagonal dashed line is a random classifier (AUC = 0.5). Any model above this line is better than guessing. The closer the curve hugs the top-left corner, the better. AUC = 1.0 is perfect. Our Hybrid achieves the highest AUC — confirming it as the strongest model at every threshold.</p>
         </div>
       </div>
     </div>

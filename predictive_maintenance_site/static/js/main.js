@@ -297,3 +297,166 @@ document.addEventListener("DOMContentLoaded", () => {
     // Delay the first check slightly to let the animation start
     setTimeout(checkServer, 1000);
 });
+
+// ══════════════════════════════════════════════════════════
+// EVALUATION SECTION — Confusion Matrix + ROC Charts
+// ══════════════════════════════════════════════════════════
+
+const CHART_DEFAULTS = {
+  color: "#9494a8",
+  grid: "rgba(255,255,255,0.06)",
+  accent: "#f59e0b"
+};
+
+const MODEL_COLORS = {
+  "Logistic Regression": "#ef4444",
+  "Decision Tree":       "#f59e0b",
+  "KNN":                 "#3b82f6",
+  "Random Forest":       "#10b981",
+  "Hybrid (RF + KNN)":   "#a78bfa"
+};
+
+let evalData = {};
+let rocSingleChart = null;
+let rocAllChart    = null;
+let activeEvalModel = "Logistic Regression";
+
+// Update CM cells + single ROC chart for the selected model
+function renderEvalForModel(modelKey) {
+  const d = evalData[modelKey];
+  if (!d) return;
+
+  // Confusion matrix cells
+  document.getElementById("cm-tn").textContent = d.cm[0].toLocaleString();
+  document.getElementById("cm-fp").textContent = d.cm[1].toLocaleString();
+  document.getElementById("cm-fn").textContent = d.cm[2].toLocaleString();
+  document.getElementById("cm-tp").textContent = d.cm[3].toLocaleString();
+
+  // ROC label + AUC badge
+  document.getElementById("roc-model-label").textContent = modelKey;
+  document.getElementById("roc-auc-label").textContent   = `AUC: ${d.auc}`;
+
+  const color = MODEL_COLORS[modelKey] || "#f59e0b";
+  const ctx   = document.getElementById("rocSingleChart").getContext("2d");
+
+  if (rocSingleChart) rocSingleChart.destroy();
+  rocSingleChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      datasets: [
+        {
+          label: `${modelKey} (AUC = ${d.auc})`,
+          data: d.fpr.map((x, i) => ({ x, y: d.tpr[i] })),
+          borderColor: color,
+          backgroundColor: color.replace(")", ", 0.08)").replace("rgb", "rgba"),
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0
+        },
+        {
+          label: "Random Baseline",
+          data: [{ x: 0, y: 0 }, { x: 1, y: 1 }],
+          borderColor: "rgba(255,255,255,0.2)",
+          borderWidth: 1,
+          borderDash: [5, 5],
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 500 },
+      scales: {
+        x: {
+          type: "linear", min: 0, max: 1,
+          title: { display: true, text: "False Positive Rate", color: CHART_DEFAULTS.color },
+          grid: { color: CHART_DEFAULTS.grid },
+          ticks: { color: CHART_DEFAULTS.color, maxTicksLimit: 6 }
+        },
+        y: {
+          min: 0, max: 1,
+          title: { display: true, text: "True Positive Rate", color: CHART_DEFAULTS.color },
+          grid: { color: CHART_DEFAULTS.grid },
+          ticks: { color: CHART_DEFAULTS.color, maxTicksLimit: 6 }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: CHART_DEFAULTS.color, boxWidth: 14, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// Render all-models ROC comparison
+function renderAllROC() {
+  const ctx = document.getElementById("rocAllChart").getContext("2d");
+  const datasets = Object.entries(evalData).map(([key, d]) => ({
+    label: `${key} (${d.auc})`,
+    data: d.fpr.map((x, i) => ({ x, y: d.tpr[i] })),
+    borderColor: MODEL_COLORS[key] || "#aaa",
+    borderWidth: 2,
+    pointRadius: 0,
+    tension: 0.3,
+    fill: false
+  }));
+
+  // Baseline
+  datasets.push({
+    label: "Random Baseline",
+    data: [{ x: 0, y: 0 }, { x: 1, y: 1 }],
+    borderColor: "rgba(255,255,255,0.18)",
+    borderWidth: 1,
+    borderDash: [5, 5],
+    pointRadius: 0,
+    fill: false
+  });
+
+  if (rocAllChart) rocAllChart.destroy();
+  rocAllChart = new Chart(ctx, {
+    type: "line",
+    data: { datasets },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          type: "linear", min: 0, max: 1,
+          title: { display: true, text: "False Positive Rate", color: CHART_DEFAULTS.color },
+          grid: { color: CHART_DEFAULTS.grid },
+          ticks: { color: CHART_DEFAULTS.color, maxTicksLimit: 6 }
+        },
+        y: {
+          min: 0, max: 1,
+          title: { display: true, text: "True Positive Rate", color: CHART_DEFAULTS.color },
+          grid: { color: CHART_DEFAULTS.grid },
+          ticks: { color: CHART_DEFAULTS.color, maxTicksLimit: 6 }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: CHART_DEFAULTS.color, boxWidth: 12, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// Tab click handler
+document.querySelectorAll("#eval-model-tabs .gtab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#eval-model-tabs .gtab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeEvalModel = btn.dataset.emodel;
+    renderEvalForModel(activeEvalModel);
+  });
+});
+
+// Fetch evaluation data on load
+fetch("/evaluation")
+  .then(r => r.json())
+  .then(data => {
+    if (!data || !Object.keys(data).length) return;
+    evalData = data;
+    renderEvalForModel(activeEvalModel);
+    renderAllROC();
+  })
+  .catch(() => console.warn("Evaluation data not yet available — run model files first."));

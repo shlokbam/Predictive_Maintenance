@@ -712,3 +712,20 @@ code{font-family:var(--font-mono);font-size:13px;background:var(--surface2);padd
   color: #444;
   line-height: 1.5;
 }
+
+/* CONFUSION MATRIX CELLS */
+.cm-cell{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:1.3rem;font-weight:600;
+  border-radius:var(--r);min-height:80px;
+  transition:all .35s ease;
+}
+.cm-tn{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.25);color:var(--blue)}
+.cm-fp{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--accent)}
+.cm-fn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+.cm-tp{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25);color:var(--green)}
+
+/* RESPONSIVE: eval row stacks on mobile */
+@media(max-width:768px){
+  .eval-charts-row{grid-template-columns:1fr!important}
+}
