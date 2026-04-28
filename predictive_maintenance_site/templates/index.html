@@ -48,7 +48,9 @@
       <li><a href="#models">Models</a></li>
       <li><a href="#hybrid">Hybrid</a></li>
       <li><a href="#result">Result</a></li>
+      <li><a href="#testing" class="nav-predict-link">Predict</a></li>
     </ul>
+    <a href="{{ url_for('static', filename='report.pdf') }}" target="_blank" class="nav-report-btn">📄 Report</a>
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </nav>
   <div class="mobile-drawer" id="drawer">
@@ -62,6 +64,9 @@
     <a href="#models" class="drawer-link">Models</a>
     <a href="#hybrid" class="drawer-link">Hybrid</a>
     <a href="#result" class="drawer-link">Result</a>
+    <a href="#testing" class="drawer-link drawer-predict-link">Predict</a>
+    <a href="{{ url_for('static', filename='report.pdf') }}" target="_blank" class="drawer-link drawer-report-link">📄
+      Report</a>
   </div>
 
   <!-- HERO -->
