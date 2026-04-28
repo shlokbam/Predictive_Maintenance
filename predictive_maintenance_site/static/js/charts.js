@@ -100,19 +100,19 @@ const NORM_VALS = {
 // Model results (from CSV files)
 const MODEL_RESULTS = {
   labels:    ['Logistic\nRegression', 'KNN\n(k=5)', 'Decision\nTree', 'Random\nForest'],
-  accuracy:  [83.5, 95.7, 95.9, 97.4],
-  precision: [84.4, 93.1, 95.3, 96.4],
-  recall:    [82.3, 98.7, 96.6, 98.3],
-  f1:        [83.3, 95.8, 95.9, 97.4],
+  accuracy:  [83.5, 95.7, 95.0, 97.4],
+  precision: [84.4, 93.1, 94.2, 96.4],
+  recall:    [82.3, 98.7, 95.9, 98.3],
+  f1:        [83.3, 95.8, 95.0, 97.4],
   colors:    [C.red, C.blue, C.accent, C.green],
 };
 
 const ALL_MODELS = {
   labels:    ['Logistic\nRegression', 'KNN\n(k=5)', 'Decision\nTree', 'Random\nForest', 'Hybrid\n(RF+KNN)'],
-  accuracy:  [83.5, 95.7, 95.9, 97.4, 97.5],
-  precision: [84.4, 93.1, 95.3, 96.4, 97.3],
-  recall:    [82.3, 98.7, 96.6, 98.3, 97.6],
-  f1:        [83.3, 95.8, 95.9, 97.4, 97.5],
+  accuracy:  [83.5, 95.7, 95.0, 97.4, 97.5],
+  precision: [84.4, 93.1, 94.2, 96.4, 97.3],
+  recall:    [82.3, 98.7, 95.9, 98.3, 97.6],
+  f1:        [83.3, 95.8, 95.0, 97.4, 97.5],
 };
 
 // ── HELPERS ──
