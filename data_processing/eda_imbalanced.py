@@ -13,18 +13,15 @@ print("\nDataset Shape:", df.shape)
 print("\nMissing Values:\n", df.isnull().sum())
 print("\nClass Distribution:\n", df['Target'].value_counts())
 
-# ---------------------------
+
 # Class Distribution
-# ---------------------------
 plt.figure(figsize=(6,4))
 sns.countplot(x='Target', data=df)
 plt.title("Class Distribution")
 plt.savefig("eda_graphs/class_distribution.png")
 plt.close()
 
-# ---------------------------
 # Failure Type
-# ---------------------------
 plt.figure(figsize=(8,5))
 sns.countplot(x='Failure Type', data=df)
 plt.xticks(rotation=45)
@@ -32,9 +29,7 @@ plt.title("Failure Type Distribution")
 plt.savefig("eda_graphs/failure_type.png")
 plt.close()
 
-# ---------------------------
 # Correlation Heatmap
-# ---------------------------
 numeric_df = df.select_dtypes(include=np.number)
 
 plt.figure(figsize=(10,6))
@@ -43,9 +38,7 @@ plt.title("Correlation Heatmap")
 plt.savefig("eda_graphs/correlation_heatmap.png")
 plt.close()
 
-# ---------------------------
 # Feature Distributions
-# ---------------------------
 features = [
     'Air temperature [K]',
     'Process temperature [K]',
@@ -61,9 +54,7 @@ for feature in features:
     plt.savefig(f"eda_graphs/{feature}_distribution.png")
     plt.close()
 
-# ---------------------------
 # Boxplots
-# ---------------------------
 for feature in features:
     plt.figure()
     sns.boxplot(x=df[feature])

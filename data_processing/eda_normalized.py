@@ -1,20 +1,15 @@
-# ==========================================
+
 # STEP 5 : EDA ON NORMALIZED DATASET
-# ==========================================
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# ----------------------------
 # Create folder for graphs
-# ----------------------------
 os.makedirs("normalized_eda_graphs", exist_ok=True)
 
-# ----------------------------
 # Load normalized dataset
-# ----------------------------
 df = pd.read_csv("normalized_dataset.csv")
 
 print("\n===================================")
@@ -41,9 +36,7 @@ print(df.isnull().sum())
 print("\nStatistical Summary:")
 print(df.describe())
 
-# ----------------------------
 # Class Distribution
-# ----------------------------
 print("\nClass Distribution:")
 print(df["Target"].value_counts())
 
@@ -53,9 +46,7 @@ plt.title("Class Distribution (Normalized Dataset)")
 plt.savefig("normalized_eda_graphs/class_distribution.png")
 plt.close()
 
-# ----------------------------
 # Feature Distributions
-# ----------------------------
 features = df.drop("Target", axis=1).columns
 
 for feature in features:
@@ -66,18 +57,14 @@ for feature in features:
     plt.savefig(f"normalized_eda_graphs/{feature}_distribution.png")
     plt.close()
 
-# ----------------------------
 # Correlation Heatmap
-# ----------------------------
 plt.figure(figsize=(10,6))
 sns.heatmap(df.corr(), annot=True, cmap="coolwarm")
 plt.title("Correlation Heatmap (Normalized Dataset)")
 plt.savefig("normalized_eda_graphs/correlation_heatmap.png")
 plt.close()
 
-# ----------------------------
 # Boxplots for Outliers
-# ----------------------------
 for feature in features:
 
     plt.figure(figsize=(6,4))

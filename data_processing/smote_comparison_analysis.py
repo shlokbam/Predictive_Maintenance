@@ -1,6 +1,4 @@
-# ==========================================
 # BEFORE vs AFTER SMOTE ANALYSIS
-# ==========================================
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,10 +18,7 @@ original = original.drop(columns=["UDI", "Product ID", "Failure Type"])
 # Encode machine type
 original["Type"] = original["Type"].map({"L":0,"M":1,"H":2})
 
-# ======================================
 # CLASS DISTRIBUTION COMPARISON
-# ======================================
-
 plt.figure(figsize=(10,5))
 
 plt.subplot(1,2,1)
@@ -37,9 +32,7 @@ plt.title("After SMOTE")
 plt.savefig("smote_comparison_graphs/class_balance_comparison.png")
 plt.close()
 
-# ======================================
 # FEATURE DISTRIBUTION COMPARISON
-# ======================================
 
 features = [
 'Air temperature [K]',
@@ -64,9 +57,7 @@ for feature in features:
     plt.savefig(f"smote_comparison_graphs/{feature}_comparison.png")
     plt.close()
 
-# ======================================
 # CORRELATION COMPARISON
-# ======================================
 
 plt.figure(figsize=(10,6))
 sns.heatmap(original.corr(), cmap="coolwarm")
