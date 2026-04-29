@@ -28,7 +28,7 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 results = {
-    "Model": "Decision Tree",
+    "Model": "Desicion Tree",
     "Accuracy": accuracy_score(y_test, y_pred),
     "Precision": precision_score(y_test, y_pred),
     "Recall": recall_score(y_test, y_pred),

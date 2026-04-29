@@ -32,7 +32,7 @@ knn = KNeighborsClassifier(n_neighbors=5)
 # Hybrid Model (Voting)
 hybrid = VotingClassifier(
     estimators=[("rf", rf), ("knn", knn)],
-    voting="hard"
+    voting="soft"
 )
 
 # Train
@@ -83,10 +83,8 @@ plt.colorbar(im); plt.tight_layout()
 plt.savefig(f"{OUT}/hybrid_confusion_matrix.png", dpi=120)
 plt.close()
 
-# ── ROC Curve (average RF + KNN probabilities since voting='hard') ─────────────
-rf_prob  = hybrid.estimators_[0].predict_proba(X_test)[:, 1]
-knn_prob = hybrid.estimators_[1].predict_proba(X_test)[:, 1]
-y_prob   = (rf_prob + knn_prob) / 2
+# ── ROC Curve (Uses average probabilities from soft voting) ─────────────
+y_prob = hybrid.predict_proba(X_test)[:, 1]
 
 fpr, tpr, _ = roc_curve(y_test, y_prob)
 roc_auc = auc(fpr, tpr)
