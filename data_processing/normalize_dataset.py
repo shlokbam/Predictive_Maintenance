@@ -1,4 +1,3 @@
-
 # STEP 4 : DATA NORMALIZATION
 
 import pandas as pd

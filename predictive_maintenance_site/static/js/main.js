@@ -75,21 +75,21 @@ const statusMsg = resultsCard.querySelector(".status-message");
 if (predictionForm) {
   predictionForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(predictionForm);
     const data = Object.fromEntries(formData.entries());
-    
+
     // UI Loading State
     submitBtn.disabled = true;
     btnLoader.classList.remove("hidden");
     btnText.textContent = "Processing...";
-    
+
     // Reset Card State & Show Mechanism
     resultsCard.classList.remove("initial", "safe", "fail");
     resPlaceholder.classList.add("hidden");
     resContent.classList.add("hidden");
     diagLoader.classList.remove("hidden");
-    
+
     resetLogs();
     statusMsg.textContent = "Computing Diagnostic...";
     statusDot.className = "status-dot pulse";
@@ -100,9 +100,9 @@ if (predictionForm) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-      
+
       const result = await response.json();
-      
+
       if (result.status === "success") {
         // Run The Animation Mechanism (Heavy Task feel)
         await runDiagnosticSequence();
@@ -159,10 +159,10 @@ async function runDiagnosticSequence() {
 function displayHybridResult(prediction) {
   resPlaceholder.classList.add("hidden");
   resContent.classList.remove("hidden");
-  
+
   hybridStatus.textContent = prediction;
   hybridStatus.className = "res-val"; // Reset classes
-  
+
   if (prediction === "No Failure") {
     resultsCard.classList.add("safe");
     hybridStatus.classList.add("text-safe");
@@ -201,7 +201,7 @@ if (randomBtn) {
 
     // 40% chance of generating a "Failure Scenario" to avoid looking biased
     const generateFailure = Math.random() < 0.4;
-    
+
     // Base Values
     let type = ["L", "M", "H"][Math.floor(Math.random() * 3)];
     let airTemp = (Math.random() * (305 - 295) + 295).toFixed(1);
@@ -237,7 +237,7 @@ if (randomBtn) {
     updateWithEffect(speedInput, speed);
     updateWithEffect(torqueInput, torque);
     updateWithEffect(wearInput, wear);
-    
+
     // Add simple CSS class for highlight if not exists
     if (!document.getElementById("flash-style")) {
       const style = document.createElement("style");
@@ -250,52 +250,52 @@ if (randomBtn) {
 
 // --- SERVER WAKE-UP LOGIC ---
 document.addEventListener("DOMContentLoaded", () => {
-    const loader = document.getElementById("server-loader");
-    const loaderText = document.getElementById("loader-text");
-    
-    const entertainMessages = [
-        "Calibrating industrial sensors...",
-        "Tuning Hybrid Ensemble weights...",
-        "Normalizing dataset parameters...",
-        "Initializing RF decision trees...",
-        "Computing KNN neighbor clusters...",
-        "Stabilizing sensor data feed...",
-        "Training the predictive models...",
-        "Optimizing diagnostic pipeline...",
-        "Securing industrial interface...",
-        "Processing historical maintenance logs..."
-    ];
+  const loader = document.getElementById("server-loader");
+  const loaderText = document.getElementById("loader-text");
 
-    let msgIndex = 0;
-    const textInterval = setInterval(() => {
-        loaderText.style.opacity = 0;
-        setTimeout(() => {
-            msgIndex = (msgIndex + 1) % entertainMessages.length;
-            loaderText.textContent = entertainMessages[msgIndex];
-            loaderText.style.opacity = 1;
-        }, 300);
-    }, 3500);
+  const entertainMessages = [
+    "Calibrating industrial sensors...",
+    "Tuning Hybrid Ensemble weights...",
+    "Normalizing dataset parameters...",
+    "Initializing RF decision trees...",
+    "Computing KNN neighbor clusters...",
+    "Stabilizing sensor data feed...",
+    "Training the predictive models...",
+    "Optimizing diagnostic pipeline...",
+    "Securing industrial interface...",
+    "Processing historical maintenance logs..."
+  ];
 
-    // Function to check if server is active
-    const checkServer = async () => {
-        try {
-            // We ping the index page. Render's cold start will hang here until ready.
-            const response = await fetch("/", { method: "HEAD" });
-            if (response.ok) {
-                clearInterval(textInterval);
-                loader.classList.add("loaded");
-                console.log("Server active. Dashboard ready.");
-            } else {
-                setTimeout(checkServer, 2000);
-            }
-        } catch (err) {
-            // Still starting up or network issue
-            setTimeout(checkServer, 2000);
-        }
-    };
+  let msgIndex = 0;
+  const textInterval = setInterval(() => {
+    loaderText.style.opacity = 0;
+    setTimeout(() => {
+      msgIndex = (msgIndex + 1) % entertainMessages.length;
+      loaderText.textContent = entertainMessages[msgIndex];
+      loaderText.style.opacity = 1;
+    }, 300);
+  }, 3500);
 
-    // Delay the first check slightly to let the animation start
-    setTimeout(checkServer, 1000);
+  // Function to check if server is active
+  const checkServer = async () => {
+    try {
+      // We ping the index page. Render's cold start will hang here until ready.
+      const response = await fetch("/", { method: "HEAD" });
+      if (response.ok) {
+        clearInterval(textInterval);
+        loader.classList.add("loaded");
+        console.log("Server active. Dashboard ready.");
+      } else {
+        setTimeout(checkServer, 2000);
+      }
+    } catch (err) {
+      // Still starting up or network issue
+      setTimeout(checkServer, 2000);
+    }
+  };
+
+  // Delay the first check slightly to let the animation start
+  setTimeout(checkServer, 1000);
 });
 
 // ══════════════════════════════════════════════════════════
@@ -310,15 +310,15 @@ const CHART_DEFAULTS = {
 
 const MODEL_COLORS = {
   "Logistic Regression": "#ef4444",
-  "Decision Tree":       "#f59e0b",
-  "KNN":                 "#3b82f6",
-  "Random Forest":       "#10b981",
-  "Hybrid (RF + KNN)":   "#a78bfa"
+  "Decision Tree": "#f59e0b",
+  "KNN": "#3b82f6",
+  "Random Forest": "#10b981",
+  "Hybrid (RF + KNN)": "#a78bfa"
 };
 
 let evalData = {};
 let rocSingleChart = null;
-let rocAllChart    = null;
+let rocAllChart = null;
 let activeEvalModel = "Logistic Regression";
 
 // Update CM cells + single ROC chart for the selected model
@@ -334,10 +334,10 @@ function renderEvalForModel(modelKey) {
 
   // ROC label + AUC badge
   document.getElementById("roc-model-label").textContent = modelKey;
-  document.getElementById("roc-auc-label").textContent   = `AUC: ${d.auc}`;
+  document.getElementById("roc-auc-label").textContent = `AUC: ${d.auc}`;
 
   const color = MODEL_COLORS[modelKey] || "#f59e0b";
-  const ctx   = document.getElementById("rocSingleChart").getContext("2d");
+  const ctx = document.getElementById("rocSingleChart").getContext("2d");
 
   if (rocSingleChart) rocSingleChart.destroy();
   rocSingleChart = new Chart(ctx, {
@@ -367,6 +367,7 @@ function renderEvalForModel(modelKey) {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       animation: { duration: 500 },
       scales: {
         x: {
@@ -419,6 +420,7 @@ function renderAllROC() {
     data: { datasets },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
         x: {
           type: "linear", min: 0, max: 1,

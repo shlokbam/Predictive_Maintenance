@@ -556,16 +556,14 @@
         <button class="gtab" data-emodel="Random Forest">Random Forest</button>
         <button class="gtab" data-emodel="Hybrid (RF + KNN)">Hybrid</button>
       </div>
-
-      <div class="eval-charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-
+      <div class="eval-charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
         <!-- Confusion Matrix -->
-        <div class="graph-block">
+        <div class="graph-block" style="display:flex; flex-direction:column; height:100%">
           <div class="graph-header">
             <div class="graph-title">Confusion Matrix</div>
             <div class="graph-subtitle">Actual vs Predicted on test set (3,865 samples)</div>
           </div>
-          <div id="cm-display" style="padding:1rem">
+          <div id="cm-display" style="padding:1rem; flex-grow:1">
             <div style="display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.4rem;font-family:var(--font-mono,monospace);font-size:.85rem">
               <div></div>
               <div style="text-align:center;color:var(--accent,#00f0ff);font-size:.75rem;padding:.3rem">Predicted<br>No Failure</div>
@@ -596,6 +594,13 @@
               </div>
             </div>
           </div>
+          <div class="info-card" style="margin:1rem; margin-top:0; border-top:1px solid var(--border); padding-top:1rem">
+            <div class="ic-title" style="font-size:0.7rem; color:var(--text-2)">Evaluation Summary</div>
+            <p style="font-size:0.75rem; color:#aaa; margin-top:0.3rem">
+              The Matrix breaks down the exact number of correct and incorrect predictions. 
+              The goal is to maximize the <strong>Diagonal (Blue/Green)</strong> and minimize the others.
+            </p>
+          </div>
         </div>
 
         <!-- Individual ROC Chart -->
@@ -604,7 +609,14 @@
             <div class="graph-title">ROC Curve — <span id="roc-model-label">Logistic Regression</span></div>
             <div class="graph-subtitle" id="roc-auc-label">AUC: —</div>
           </div>
-          <div class="graph-wrap"><canvas id="rocSingleChart" height="260"></canvas></div>
+          <div class="graph-wrap" style="height:380px"><canvas id="rocSingleChart"></canvas></div>
+          <div class="info-card" style="margin-top:1rem; border-top:1px solid var(--border); padding-top:1rem">
+            <div class="ic-title" style="font-size:0.7rem; color:var(--text-2)">ROC Interpretation</div>
+            <p style="font-size:0.75rem; color:#aaa; margin-top:0.3rem">
+              The red area represents the model's ability to distinguish between classes. 
+              A larger area (AUC) means the model is better at catching failures without raising too many false alarms.
+            </p>
+          </div>
         </div>
       </div>
 
