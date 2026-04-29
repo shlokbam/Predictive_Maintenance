@@ -54,15 +54,28 @@ const BOX_DATA = {
   max:    [304.5, 313.8, 288.6, 76.6, 50.6],
 };
 
-// Correlation matrix
-const CORR_LABELS = ['Air Temp', 'Proc Temp', 'Rot Speed', 'Torque', 'Tool Wear', 'Target'];
+// Correlation matrix (Original)
+const CORR_LABELS = ['UDI', 'Air Temp', 'Proc Temp', 'Rot Speed', 'Torque', 'Tool Wear', 'Target'];
 const CORR_MATRIX = [
-  [ 1.00,  0.88, -0.10,  0.08,  0.05,  0.07],
-  [ 0.88,  1.00, -0.09,  0.10,  0.04,  0.06],
-  [-0.10, -0.09,  1.00, -0.87,  0.04, -0.04],
-  [ 0.08,  0.10, -0.87,  1.00,  0.02,  0.05],
-  [ 0.05,  0.04,  0.04,  0.02,  1.00,  0.09],
-  [ 0.07,  0.06, -0.04,  0.05,  0.09,  1.00],
+  [ 1.00,  0.12,  0.32, -0.0066, 0.0032, -0.011, -0.023],
+  [ 0.12,  1.00,  0.88,  0.023, -0.014,  0.014,  0.083],
+  [ 0.32,  0.88,  1.00,  0.019, -0.014,  0.013,  0.036],
+  [-0.0066,0.023, 0.019,  1.00, -0.88,   0.00022,-0.044],
+  [ 0.0032,-0.014,-0.014, -0.88,  1.00,  -0.0031, 0.19 ],
+  [-0.011, 0.014, 0.013,  0.00022,-0.0031, 1.00,   0.11 ],
+  [-0.023, 0.083, 0.036, -0.044,  0.19,   0.11,   1.00 ],
+];
+
+// Correlation matrix (Balanced / SMOTE)
+const BAL_CORR_LABELS = ['Type', 'Air Temp', 'Proc Temp', 'Rot Speed', 'Torque', 'Tool Wear', 'Target'];
+const BAL_CORR_MATRIX = [
+  [ 1.00, -0.03, -0.01,  0.081, -0.12, -0.08, -0.22],
+  [-0.03,  1.00,  0.86, -0.10,  0.12, -0.072, 0.25],
+  [-0.01,  0.86,  1.00, -0.045, 0.051, -0.023, 0.12],
+  [ 0.081,-0.10, -0.045, 1.00, -0.85, -0.084, -0.083],
+  [-0.12,  0.12,  0.051, -0.85,  1.00,  0.079,  0.38],
+  [-0.08, -0.072,-0.023, -0.084, 0.079,  1.00,   0.26],
+  [-0.22,  0.25,  0.12, -0.083, 0.38,  0.26,   1.00],
 ];
 
 // SMOTE comparison — feature distributions before/after
@@ -250,35 +263,58 @@ function buildBoxChart() {
 // ════════════════════════════════════════
 // 3. CORRELATION HEATMAP
 // ════════════════════════════════════════
-function buildHeatmap(canvasId) {
-  const n = CORR_LABELS.length;
+// ════════════════════════════════════════
+// 3. CORRELATION HEATMAP
+// ════════════════════════════════════════
+function buildHeatmap(canvasId, labels, matrix) {
+  const n = labels.length;
   const data = [];
-  const colors = [];
+  
+  // Flatten matrix into Chart.js coordinate objects
   for (let r = 0; r < n; r++) {
     for (let c = 0; c < n; c++) {
-      data.push({ x: CORR_LABELS[c], y: CORR_LABELS[r], v: CORR_MATRIX[r][c] });
+      data.push({ x: labels[c], y: labels[r], v: matrix[r][c] });
     }
   }
 
+  // Custom Plugin to Draw Values inside Heatmap Cells
+  const heatmapLabelsPlugin = {
+    id: 'heatmapLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx, data } = chart;
+      ctx.save();
+      ctx.font = 'bold 9px "Outfit"';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      chart.getDatasetMeta(0).data.forEach((point, index) => {
+        const val = data.datasets[0].data[index].v;
+        // Contrast color: dark text for light cells, light text for dark cells
+        ctx.fillStyle = Math.abs(val) > 0.4 ? '#fff' : '#9494a8';
+        ctx.fillText(val.toFixed(2), point.x, point.y);
+      });
+      ctx.restore();
+    }
+  };
+
   makeChart(canvasId, {
     type: 'scatter',
+    plugins: [heatmapLabelsPlugin],
     data: {
       datasets: [{
         data,
         pointStyle: 'rect',
         pointRadius: function(ctx) {
           const chart = ctx.chart;
-          return Math.min(chart.width, chart.height) / (n * 1.8);
+          const side = Math.min(chart.width, chart.height) / (n * 1.3);
+          return side;
         },
         backgroundColor: data.map(d => {
           const v = d.v;
-          if (v >= 0.7) return rgba(C.blue, 0.85);
-          if (v >= 0.4) return rgba(C.blue, 0.5);
-          if (v >= 0.1) return rgba(C.blue, 0.25);
-          if (v <= -0.7) return rgba(C.red, 0.85);
-          if (v <= -0.4) return rgba(C.red, 0.5);
-          if (v <= -0.1) return rgba(C.red, 0.25);
-          return rgba('#ffffff', 0.07);
+          // Interpolate Red (Pos) to Blue (Neg)
+          if (v > 0) return rgba(C.red, v * 0.9 + 0.1);
+          if (v < 0) return rgba(C.blue, Math.abs(v) * 0.9 + 0.1);
+          return 'rgba(255,255,255,0.05)';
         }),
         borderWidth: 0,
       }]
@@ -293,13 +329,13 @@ function buildHeatmap(canvasId) {
           borderColor: C.border, borderWidth: 1, padding: 10, cornerRadius: 8,
           callbacks: {
             title: items => `${items[0].raw.y} ↔ ${items[0].raw.x}`,
-            label: item => `  Pearson r = ${item.raw.v.toFixed(2)}`
+            label: item => `  Pearson r = ${item.raw.v.toFixed(3)}`
           }
         }
       },
       scales: {
-        x: { type: 'category', labels: CORR_LABELS, grid:{color:C.grid}, ticks:{color:C.text3,font:{size:10}} },
-        y: { type: 'category', labels: [...CORR_LABELS].reverse(), grid:{color:C.grid}, ticks:{color:C.text3,font:{size:10}} }
+        x: { type: 'category', labels: labels, grid:{display:false}, ticks:{color:C.text3,font:{size:9}} },
+        y: { type: 'category', labels: [...labels].reverse(), grid:{display:false}, ticks:{color:C.text3,font:{size:9}} }
       }
     }
   });
@@ -615,13 +651,13 @@ function buildFinalCompChart() {
 document.addEventListener('DOMContentLoaded', () => {
   buildDistChart('air');
   buildBoxChart();
-  buildHeatmap('heatmapChart');
+  buildHeatmap('heatmapChart', CORR_LABELS, CORR_MATRIX);
   buildBiasChart();
   buildSmoteClassCharts();
   buildSmoteCompChart('air');
   buildBalancedClassChart();
   buildBalancedDistChart('air');
-  buildHeatmap('balHeatmapChart');
+  buildHeatmap('balHeatmapChart', BAL_CORR_LABELS, BAL_CORR_MATRIX);
   buildNormRangeCharts();
   buildNormDistChart('air');
   buildAccuracyChart();

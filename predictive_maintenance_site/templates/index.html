@@ -242,7 +242,7 @@
         <div class="graph-wrap"><canvas id="boxChart" height="220"></canvas></div>
         <div class="info-card">
           <div class="ic-title">What the boxplots reveal</div>
-          <p>Rotational speed has a <strong>left skew</strong> — most machines operate in the 1200–1800 rpm range but a
+          <p>Rotational speed has a <strong>right skew</strong> — most machines operate in the 1200–1800 rpm range but a
             few run much faster. Torque shows <strong>high-end outliers</strong> beyond 65 Nm, which often correspond to
             overstrain failures. Tool wear is near-uniform since it increments linearly with usage time. These outliers
             are intentionally kept — they carry critical failure signal and removing them would reduce model
@@ -260,10 +260,10 @@
           <div class="ic-title">Key relationships discovered</div>
           <p><strong>Air Temp ↔ Process Temp (r = 0.88):</strong> Strong positive correlation. When ambient temperature
             rises, internal machine temperature follows — increasing thermal stress risk.<br><br>
-            <strong>Rotational Speed ↔ Torque (r = −0.87):</strong> Strong negative correlation. This is mechanical law
+            <strong>Rotational Speed ↔ Torque (r = −0.88):</strong> Strong negative correlation. This is mechanical law
             — power = speed × torque. Extreme combinations (very low speed + very high torque) trigger overstrain
             failures.<br><br>
-            <strong>Tool Wear ↔ Target (r = 0.09):</strong> Weak but real. Tool wear amplifies other failure modes
+            <strong>Tool Wear ↔ Target (r = 0.11):</strong> Weak but real. Tool wear amplifies other failure modes
             rather than causing failures on its own.
           </p>
         </div>
@@ -420,9 +420,10 @@
         <div class="info-card">
           <div class="ic-title">SMOTE preserves correlation structure</div>
           <p>The correlation matrix is nearly identical to the original dataset. Air-Process temperature correlation
-            remains at ~0.88, and the Speed-Torque negative correlation stays at ~−0.87. This is critical evidence that
-            SMOTE generated statistically consistent samples — maintaining the underlying mechanical relationships of
-            the machine rather than introducing artificial patterns.</p>
+            remains at <strong>0.86</strong>, and the Speed-Torque negative correlation stays at
+            <strong>−0.85</strong>. This is critical evidence that SMOTE generated statistically consistent samples —
+            maintaining the underlying mechanical relationships of the machine rather than introducing artificial
+            patterns.</p>
         </div>
       </div>
     </div>
@@ -546,7 +547,9 @@
     <div class="section-inner reveal">
       <div class="section-tag">— Model Evaluation</div>
       <h2 class="section-title">Confusion Matrix &amp; ROC Curves</h2>
-      <p class="section-desc">Deep-dive evaluation of every model. The confusion matrix shows exactly what each model got right and wrong. The ROC curve shows performance across all decision thresholds — AUC closer to 1.0 is better.</p>
+      <p class="section-desc">Deep-dive evaluation of every model. The confusion matrix shows exactly what each model
+        got right and wrong. The ROC curve shows performance across all decision thresholds — AUC closer to 1.0 is
+        better.</p>
 
       <!-- Model Selector Tabs -->
       <div class="graph-tabs" id="eval-model-tabs" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem">
@@ -564,14 +567,20 @@
             <div class="graph-subtitle">Actual vs Predicted on test set (3,865 samples)</div>
           </div>
           <div id="cm-display" style="padding:1rem; flex-grow:1">
-            <div style="display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.4rem;font-family:var(--font-mono,monospace);font-size:.85rem">
+            <div
+              style="display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:.4rem;font-family:var(--font-mono,monospace);font-size:.85rem">
               <div></div>
-              <div style="text-align:center;color:var(--accent,#00f0ff);font-size:.75rem;padding:.3rem">Predicted<br>No Failure</div>
+              <div style="text-align:center;color:var(--accent,#00f0ff);font-size:.75rem;padding:.3rem">Predicted<br>No
+                Failure</div>
               <div style="text-align:center;color:#ff6b6b;font-size:.75rem;padding:.3rem">Predicted<br>Failure</div>
-              <div style="display:flex;align-items:center;color:var(--accent,#00f0ff);font-size:.75rem;writing-mode:horizontal-tb;padding:.3rem;white-space:nowrap">Actual No Failure</div>
+              <div
+                style="display:flex;align-items:center;color:var(--accent,#00f0ff);font-size:.75rem;writing-mode:horizontal-tb;padding:.3rem;white-space:nowrap">
+                Actual No Failure</div>
               <div id="cm-tn" class="cm-cell cm-tn">—</div>
               <div id="cm-fp" class="cm-cell cm-fp">—</div>
-              <div style="display:flex;align-items:center;color:#ff6b6b;font-size:.75rem;padding:.3rem;white-space:nowrap">Actual Failure</div>
+              <div
+                style="display:flex;align-items:center;color:#ff6b6b;font-size:.75rem;padding:.3rem;white-space:nowrap">
+                Actual Failure</div>
               <div id="cm-fn" class="cm-cell cm-fn">—</div>
               <div id="cm-tp" class="cm-cell cm-tp">—</div>
             </div>
@@ -594,10 +603,11 @@
               </div>
             </div>
           </div>
-          <div class="info-card" style="margin:1rem; margin-top:0; border-top:1px solid var(--border); padding-top:1rem">
+          <div class="info-card"
+            style="margin:1rem; margin-top:0; border-top:1px solid var(--border); padding-top:1rem">
             <div class="ic-title" style="font-size:0.7rem; color:var(--text-2)">Evaluation Summary</div>
             <p style="font-size:0.75rem; color:#aaa; margin-top:0.3rem">
-              The Matrix breaks down the exact number of correct and incorrect predictions. 
+              The Matrix breaks down the exact number of correct and incorrect predictions.
               The goal is to maximize the <strong>Diagonal (Blue/Green)</strong> and minimize the others.
             </p>
           </div>
@@ -613,7 +623,7 @@
           <div class="info-card" style="margin-top:1rem; border-top:1px solid var(--border); padding-top:1rem">
             <div class="ic-title" style="font-size:0.7rem; color:var(--text-2)">ROC Interpretation</div>
             <p style="font-size:0.75rem; color:#aaa; margin-top:0.3rem">
-              The red area represents the model's ability to distinguish between classes. 
+              The red area represents the model's ability to distinguish between classes.
               A larger area (AUC) means the model is better at catching failures without raising too many false alarms.
             </p>
           </div>
@@ -629,7 +639,9 @@
         <div class="graph-wrap"><canvas id="rocAllChart" height="280"></canvas></div>
         <div class="info-card">
           <div class="ic-title">How to read this chart</div>
-          <p>The diagonal dashed line is a random classifier (AUC = 0.5). Any model above this line is better than guessing. The closer the curve hugs the top-left corner, the better. AUC = 1.0 is perfect. Our Hybrid achieves the highest AUC — confirming it as the strongest model at every threshold.</p>
+          <p>The diagonal dashed line is a random classifier (AUC = 0.5). Any model above this line is better than
+            guessing. The closer the curve hugs the top-left corner, the better. AUC = 1.0 is perfect. Our Hybrid
+            achieves the highest AUC — confirming it as the strongest model at every threshold.</p>
         </div>
       </div>
     </div>
