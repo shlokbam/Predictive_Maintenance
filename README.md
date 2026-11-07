@@ -1,278 +1,67 @@
-# Predictive Maintenance Using Machine Learning
+<div align="center">
 
-## Project Overview
+<img src=".github/assets/banner.svg" alt="Predictive Maintenance: catch the failure before it happens" width="100%">
 
-This project focuses on **Predictive Maintenance using Machine Learning**.
-The goal is to analyze machine sensor data and predict potential machine failures before they occur.
+<img src="https://img.shields.io/badge/live-render-FF5A1F?style=flat-square&labelColor=2A2926" alt="live: render">
+<img src="https://img.shields.io/badge/best%20f1-0.97%20%28RF%20%2B%20KNN%29-FF5A1F?style=flat-square&labelColor=2A2926" alt="best f1: 0.97 (RF + KNN)">
+<img src="https://img.shields.io/badge/ml-scikit--learn-F2EFE7?style=flat-square&labelColor=2A2926" alt="ml: scikit-learn">
+<img src="https://img.shields.io/badge/data-10%2C000%20readings-F2EFE7?style=flat-square&labelColor=2A2926" alt="data: 10,000 readings">
 
-Predictive maintenance helps industries reduce downtime, improve operational efficiency, and minimize maintenance costs by identifying equipment issues early.
+<a href="https://predictive-maintenance-hx97.onrender.com/">Live app</a> · <a href="#what-it-does">What it does</a> · <a href="#results">Results</a> · <a href="#run-it">Run it</a> · <a href="docs/DETAILS.md">Full notes</a>
 
-The project is divided into **two phases**:
+</div>
 
-* **Phase 1:** Data Analysis and Preprocessing
-* **Phase 2:** Machine Learning Model Training and Hybrid Model Development
+Predicts machine failure from sensor readings (temperatures, rotational speed, torque, tool wear) using 10,000 records where only 3.4% are failures, then serves the hybrid model in a Flask app.
 
----
+## What it does
 
-# Phase 1 – Data Analysis and Preprocessing
+- **Explores and balances the data:** EDA on the raw set, then SMOTE to lift failures from 339 to 9,661 so models don't just predict "no failure".
+- **Normalises features** with `StandardScaler`.
+- **Trains and compares five models:** logistic regression, KNN, decision tree, random forest, and a voting hybrid of random forest + KNN, with confusion matrices and ROC curves for each.
+- **Serves predictions** in a small Flask site.
 
-Phase 1 focuses on understanding the dataset and preparing it for machine learning.
+## Results
 
-This phase includes:
+| Model | Accuracy | Precision | Recall | F1 |
+| :--- | :--- | :--- | :--- | :--- |
+| Hybrid (RF + KNN) | **0.975** | **0.973** | 0.976 | **0.975** |
+| Random forest | 0.974 | 0.964 | 0.983 | 0.974 |
+| Decision tree | 0.959 | 0.953 | 0.966 | 0.959 |
+| KNN | 0.957 | 0.931 | **0.987** | 0.958 |
+| Logistic regression | 0.835 | 0.844 | 0.823 | 0.833 |
 
-* Exploratory Data Analysis (EDA)
-* Bias Detection
-* Dataset Balancing using SMOTE
-* Feature Normalization
-* Final Dataset Preparation
+⚠️ SMOTE was applied before the train/test split, so the test set contains synthetic failures and these scores are optimistic. Re-splitting first and oversampling only the training set is on the roadmap below.
 
----
+## Stack
 
-# Dataset Information
+| Area | Tools |
+| :--- | :--- |
+| Data | pandas, NumPy, imbalanced-learn (SMOTE) |
+| Models | scikit-learn |
+| Charts | Matplotlib |
+| App | Flask, gunicorn, Render |
 
-The dataset used in this project is the **Predictive Maintenance Dataset**, which contains machine sensor data used to predict failures.
+## Run it
 
-### Dataset Size
-
-* **Total Records:** 10,000
-* **Features:** 10 columns
-
-### Important Features
-
-| Feature                 | Description                           |
-| ----------------------- | ------------------------------------- |
-| Type                    | Machine type (L, M, H)                |
-| Air Temperature [K]     | Temperature of surrounding air        |
-| Process Temperature [K] | Internal machine process temperature  |
-| Rotational Speed [rpm]  | Machine rotational speed              |
-| Torque [Nm]             | Torque applied                        |
-| Tool Wear [min]         | Tool usage time                       |
-| Target                  | Failure (0 = No Failure, 1 = Failure) |
-
----
-
-# Step 1 – Exploratory Data Analysis (EDA)
-
-EDA was performed to understand the dataset and identify patterns.
-
-### Analysis Performed
-
-* Dataset shape and structure
-* Data types of features
-* Missing value detection
-* Statistical summary
-* Feature distributions
-* Correlation analysis
-* Outlier detection
-
-### Observations
-
-* The dataset contained **no missing values**.
-* All numerical features showed reasonable distributions.
-* Some features displayed outliers which are natural in machine operation data.
-
-EDA graphs were generated using **Matplotlib and Seaborn**.
-
----
-
-# Step 2 – Bias Detection
-
-Class distribution analysis showed that the dataset was **highly imbalanced**.
-
-### Class Distribution
-
-| Class          | Count |
-| -------------- | ----- |
-| No Failure (0) | 9661  |
-| Failure (1)    | 339   |
-
-This means the dataset had:
-
-* **96.6% Normal Machines**
-* **3.4% Failure Cases**
-
-### Problem
-
-Machine learning models trained on such datasets tend to become **biased toward the majority class**, leading to poor failure prediction.
-
----
-
-# Step 3 – Dataset Balancing Using SMOTE
-
-To solve the imbalance problem, the **SMOTE (Synthetic Minority Oversampling Technique)** algorithm was applied.
-
-### What SMOTE Does
-
-SMOTE generates **synthetic samples of the minority class** instead of simply duplicating existing samples.
-
-This improves model learning and prevents overfitting.
-
-### Result After SMOTE
-
-| Class      | Count |
-| ---------- | ----- |
-| No Failure | 9661  |
-| Failure    | 9661  |
-
-The dataset became **perfectly balanced**.
-
-A new dataset was generated:
-
-```
-balanced_dataset.csv
+```bash
+pip install -r requirements.txt
+python data_processing/smote_balance.py         # balance
+python data_processing/normalize_dataset.py     # scale
+python phase2_models/models/hybrid_model.py     # train (update the CSV path at the top of each script)
+gunicorn --chdir predictive_maintenance_site app:app
 ```
 
----
+## Roadmap
 
-# Step 4 – Balanced Dataset Analysis
-
-EDA was performed again on the balanced dataset to verify the effectiveness of SMOTE.
-
-The analysis confirmed:
-
-* Equal class distribution
-* Consistent feature distributions
-* Valid synthetic samples
+- [ ] Split before SMOTE and report scores on real, untouched failures only
+- [ ] Replace the hard-coded local data paths with relative ones
 
 ---
 
-# Step 5 – Feature Normalization
+<div align="center">
 
-The dataset features were normalized using **StandardScaler**.
+<a href="https://shlokbam.in"><img src=".github/assets/footer.svg" alt="Built by Shlok Bam" width="100%"></a>
 
-### Why Normalization is Required
+<a href="https://shlokbam.in">shlokbam.in</a> · <a href="https://www.linkedin.com/in/shlokbam/">LinkedIn</a> · <a href="https://github.com/shlokbam">More projects</a>
 
-Machine learning algorithms perform better when features are on similar scales.
-
-Without normalization:
-
-* Features with larger numeric ranges dominate learning
-* Distance-based algorithms perform poorly
-
-### StandardScaler Transformation
-
-StandardScaler transforms data so that:
-
-* Mean = 0
-* Standard Deviation = 1
-
-This ensures that all features contribute equally during training.
-
-The final dataset generated:
-
-```
-normalized_dataset.csv
-```
-
----
-
-# Final Dataset
-
-The final dataset used for machine learning has the following characteristics:
-
-* Balanced classes
-* Normalized features
-* No missing values
-* No redundant columns
-
-### Final Dataset Size
-
-| Rows   | Columns |
-| ------ | ------- |
-| 19,322 | 7       |
-
-This dataset is now **ready for machine learning model training**.
-
----
-
-# Phase 2 – Machine Learning Models (Future Work)
-
-Phase 2 will focus on training multiple machine learning models using the prepared dataset.
-
-### Models to be Implemented
-
-* Logistic Regression
-* Decision Tree
-* Random Forest
-* Support Vector Machine (SVM)
-* K-Nearest Neighbors (KNN)
-* Gradient Boosting
-
-Each model will be evaluated using:
-
-* Accuracy
-* Precision
-* Recall
-* F1 Score
-* Confusion Matrix
-
----
-
-# Hybrid Model Development
-
-The two best-performing models will be combined to create a **hybrid model**.
-
-Possible techniques include:
-
-* Voting Classifier
-* Stacking Ensemble
-
-The goal is to achieve **higher predictive accuracy** than individual models.
-
----
-
-# Technologies Used
-
-| Technology       | Purpose                        |
-| ---------------- | ------------------------------ |
-| Python           | Programming language           |
-| Pandas           | Data processing                |
-| NumPy            | Numerical operations           |
-| Matplotlib       | Data visualization             |
-| Seaborn          | Statistical graphs             |
-| Scikit-Learn     | Machine learning preprocessing |
-| Imbalanced-Learn | SMOTE implementation           |
-
----
-
-# Project Structure
-
-```
-project/
-│
-├── predictive_maintenance.csv
-├── balanced_dataset.csv
-├── normalized_dataset.csv
-│
-├── eda_imbalanced.py
-├── smote_balance.py
-├── eda_balanced.py
-├── normalize_dataset.py
-├── eda_normalized.py
-│
-├── eda_graphs/
-├── balanced_eda_graphs/
-├── normalized_eda_graphs/
-├── smote_comparison_graphs/
-│
-└── README.md
-```
-
----
-
-# Conclusion
-
-This project demonstrates the complete **data preprocessing pipeline for predictive maintenance using machine learning**.
-
-The dataset was successfully:
-
-* Analyzed
-* Balanced using SMOTE
-* Normalized
-* Prepared for machine learning models
-
-Future work will focus on **model training, evaluation, and hybrid model development** to improve predictive performance.
-
----
-
-See more of Shlok Bam's work on [shlokbam.in](https://shlokbam.in).
+</div>
